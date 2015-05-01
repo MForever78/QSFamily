@@ -4,6 +4,7 @@
 
 var express = require('express');
 var app = module.exports = express();
+var saltPos = require('config').get('saltPos');
 var crypto = require('crypto');
 
 var response = {
@@ -38,6 +39,9 @@ app.post('/', function(req, res) {
 
 function authenticate(user, key) {
   var hash = crypto.createHash('sha512');
-  var password = hash.update(key.slice(0, 6)).update(user.salt).update(key.slice(6)).digest('base64');
+  var password = hash.update(key.slice(0, saltPos))
+    .update(user.salt)
+    .update(key.slice(saltPos))
+    .digest('base64');
   return key === password;
 }
