@@ -8,31 +8,20 @@ var bodyParser = require('body-parser');
 var config = require('config');
 var port = process.env.PORT || 3000;
 
-/* session control */
-var Session = require('express-session');
-var redis = require('redis');
-var redisClient = redis.createClient();
-var RedisStore = require('connect-redis')(Session);
-var sessionConf = config.get('session');
+/* jwt control */
+var tokenConf = config.get('token');
+var Jwt = require('express-jwt');
 
-var sessionMiddleware = new Session({
-  store: new RedisStore({ client: redisClient }),
-  name: sessionConf.name,
-  secret: sessionConf.secret,
-  resave: false,
-  saveUninitialized: false
+var jwtMiddleWare = Jwt({
+  secret: tokenConf.secret,
+  credentialsRequired: false
 });
 
-app.use(sessionMiddleware);
+app.use(jwtMiddleWare);
 
 /* initialize body parser */
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
-/* serve static file on development mode */
-if (app.get('env') === 'development') {
-  app.use(express.static(__dirname + '/public'));
-}
 
 /* routing */
 require('./routes')(app);
