@@ -9,11 +9,10 @@ var config = require('config');
 var port = process.env.PORT || 3000;
 
 /* jwt control */
-var tokenConf = config.get('token');
 var Jwt = require('express-jwt');
 
 var jwtMiddleWare = Jwt({
-  secret: tokenConf.secret,
+  secret: config.get('jwtSecret'),
   credentialsRequired: false
 });
 
