@@ -16,7 +16,7 @@ app.post('/', function (req, res, next) {
   if (req.user) {
     var token = jwt.sign(req.user, jwtSecret, { expiresInMinutes: expireTime });
     res.json({
-      code: 0,
+      code: Message.ok,
       token: token
     });
   }
@@ -24,7 +24,7 @@ app.post('/', function (req, res, next) {
   // if not enough information given, failed the request
   if (!req.body.username || !req.body.password || !req.body.role) {
     res.json({
-      code: 1
+      code: Message.badRequest
     });
   }
 
@@ -38,7 +38,7 @@ app.post('/', function (req, res, next) {
         var encrypted = { token: encryptAesSha256(cipherSecret, JSON.stringify(profile)) };
         var token = jwt.sign(encrypted, jwtSecret, {expireInMinutes: expireTime});
         res.json({
-          code: 0,
+          code: Message.ok,
           token: token,
           userid: profile.userid
         });
