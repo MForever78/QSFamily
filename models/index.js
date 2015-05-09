@@ -16,7 +16,7 @@ Object.keys(models).forEach(function(key) {
   global[modelName] = models[key];
 });
 
-global.knex = knex;
+global.Knex = knex;
 
 function capitaliseFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);

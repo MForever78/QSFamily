@@ -2,24 +2,18 @@
  * Created by MForever78 on 15/5/9.
  */
 
-var express = require('express');
-var app = module.exports = express();
+module.exports = userProfile;
 
-app.get('/:role/:userid', function(req, res, next) {
-  User(req.params.role, req.params.userid)
-    .then(function(user) {
-      if (!user) {
-        res.json({
-          code: Message.notFound
-        });
+function userProfile(role, userid) {
+  debug('fetching user profile with role: ' + role);
+  debug('userid: ' + userid);
+  return Knex(role)
+    .where({id: userid})
+    .then(function(rows) {
+      if (rows.length === 0) {
+        debug('no user found with userid: ' + userid);
+        return false;
       }
-      res.json({
-        code: Message.ok,
-        user: user
-      });
-    })
-    .catch(function(err) {
-      err.message = "Can't list user file";
-      next(err);
+      return rows[0];
     });
-});
+}

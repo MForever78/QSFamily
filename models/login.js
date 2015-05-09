@@ -12,7 +12,7 @@ function login(role, username, password) {
   debug('logging in into ' + role);
   debug('with username: ' + username);
   debug('password: ' + password);
-  return knex(role)
+  return Knex(role)
     .select('salt', 'password', 'id')
     .where({ username: username })
     .then(function (rows) {
