@@ -15,7 +15,7 @@ app.post('/', function (req, res, next) {
   // if user has logged in, update expire time
   if (req.user) {
     var token = jwt.sign(req.user, jwtSecret, { expiresInMinutes: expireTime });
-    res.json({
+    return res.json({
       code: Message.ok,
       token: token
     });
@@ -23,7 +23,7 @@ app.post('/', function (req, res, next) {
 
   // if not enough information given, failed the request
   if (!req.body.username || !req.body.password || !req.body.role) {
-    res.json({
+    return res.json({
       code: Message.badRequest
     });
   }
@@ -33,7 +33,7 @@ app.post('/', function (req, res, next) {
       if (!profile) {
         res.json({
           code: 1
-        })
+        });
       } else {
         var encrypted = { token: encryptAesSha256(cipherSecret, JSON.stringify(profile)) };
         var token = jwt.sign(encrypted, jwtSecret, {expireInMinutes: expireTime});
@@ -55,6 +55,7 @@ function encryptAesSha256(secret, str) {
     throw TypeError('cipher secret should be a string');
   if (typeof(str) !== 'string')
     throw TypeError('value to be encrypt should be a string');
-  var cipher = crypto.createCipher('aes-256-cbc', secret);
-  return cipher.update(str).final('base64');
+  var cipher = require('crypto').createCipher('aes-256-cbc', secret);
+  cipher.update(str, 'utf8');
+  return cipher.final('base64');
 }
