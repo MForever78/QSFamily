@@ -13,7 +13,7 @@ function login(role, username, password) {
   debug('with username: ' + username);
   debug('password: ' + password);
   return knex(role)
-    .select('salt', 'password')
+    .select('salt', 'password', 'id')
     .where({ username: username })
     .then(function (rows) {
       if (rows.length === 0) {
@@ -23,7 +23,8 @@ function login(role, username, password) {
         if (authenticate(rows[0], password)) {
           var profile = {
             role: role,
-            username: username
+            username: username,
+            userid: userid
           };
           return profile;
         } else {

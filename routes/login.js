@@ -28,7 +28,7 @@ app.post('/', function (req, res, next) {
     });
   }
 
-  login(req.body.role, req.body.username, req.body.password)
+  Login(req.body.role, req.body.username, req.body.password)
     .then(function(profile) {
       if (!profile) {
         res.json({
@@ -39,12 +39,13 @@ app.post('/', function (req, res, next) {
         var token = jwt.sign(encrypted, jwtSecret, {expireInMinutes: expireTime});
         res.json({
           code: 0,
-          token: token
+          token: token,
+          userid: profile.userid
         });
       }
     })
     .catch(function(err) {
-      console.error(err.stack);
+      err.message = "Login failed";
       next(err);
     });
 });
