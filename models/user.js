@@ -13,7 +13,10 @@ app.get('/:role/:userid', function(req, res, next) {
           code: Message.notFound
         });
       }
-      res.json(user);
+      res.json({
+        code: Message.ok,
+        user: user
+      });
     })
     .catch(function(err) {
       err.message = "Can't list user file";
