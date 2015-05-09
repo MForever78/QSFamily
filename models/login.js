@@ -20,11 +20,12 @@ function login(role, username, password) {
         debug('no username found');
         return false;
       } else {
+        debug('user found: ' + rows[0].salt);
         if (authenticate(rows[0], password)) {
           var profile = {
             role: role,
             username: username,
-            userid: userid
+            userid: rows[0].id
           };
           return profile;
         } else {
@@ -41,6 +42,6 @@ function authenticate(user, key) {
     .update(user.salt)
     .update(key.slice(saltPos))
     .digest('base64');
-  return key === password;
+  return user.password === password;
 }
 
