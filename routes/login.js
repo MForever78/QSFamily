@@ -4,6 +4,7 @@
 
 var express = require('express');
 var app = module.exports = express();
+var debug = require('debug')('QSFamily:loginRoute')
 var cipherSecret = require('config').get('cipherSecret');
 var jwt = require('jsonwebtoken');
 var jwtSecret = require('config').get('jwtSecret');

@@ -4,7 +4,7 @@
 
 var saltPos = require('config').get('saltPos');
 var crypto = require('crypto');
-var debug = require('debug')('login');
+var debug = require('debug')('QSFamily:loginModel');
 
 module.exports = login;
 

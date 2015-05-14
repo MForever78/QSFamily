@@ -2,6 +2,8 @@
  * Created by MForever78 on 15/5/9.
  */
 
+var debug = require('debug')('QSFamily:userModel');
+
 module.exports = userProfile;
 
 function userProfile(role, userid) {

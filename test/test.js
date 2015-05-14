@@ -8,7 +8,7 @@ var expect = chai.expect;
 
 chai.use(chaiAsPromised);
 
-describe('Login tests', function() {
+describe('Login model tests', function() {
   require('../models');
 
   var user = {

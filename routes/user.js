@@ -4,6 +4,7 @@
 
 var express = require('express');
 var app = module.exports = express();
+var debug = require('debug')('QSFamily:userRoute');
 
 app.get('/:role/:userid', function(req, res, next) {
   User(req.params.role, req.params.userid)
