@@ -8,9 +8,9 @@ var debug = require('debug')('QSFamily:newsRoute');
 
 app.get('/', function(req, res, next) {
   if (req.param.newsid) {
-    News({ id: req.param.newsid })
+    News.getNewsById(req.param.newsid)
       .then(function(news) {
-        if (!news) {
+        if (news.length === 0) {
           debug('Not found news: ' + req.param.newsid);
           res.json({
             code: Message.notFound
@@ -28,10 +28,10 @@ app.get('/', function(req, res, next) {
   } else {
     var query = {
       limit: req.param.limit || 30,
-      sortBy: req.param.sortBy || 'create_at',
+      orderBy: req.param.orderBy || 'create_at',
       order: req.param.order || 'desc'
     };
-    News(query)
+    News.getNews(query)
       .then(function(news) {
         res.json({
           code: Message.ok,
