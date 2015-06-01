@@ -13,12 +13,13 @@ module.exports = function(app) {
   // error handling
   app.use(function(req, res, next) {
     // nothing found
-    res.json({ code: Message.notFound });
+    res.jsonp({ code: Message.notFound });
   });
 
   app.use(function(err, req, res, next) {
     // error
-    res.json({ code: Message.internalServerError });
+    console.log(err.stack);
+    res.jsonp({ code: Message.internalServerError });
   });
 };
 

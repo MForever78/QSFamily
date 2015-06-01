@@ -16,7 +16,7 @@ app.post('/', function (req, res, next) {
   // if user has logged in, update expire time
   if (req.user) {
     var token = jwt.sign(req.user, jwtSecret, { expiresInMinutes: expireTime });
-    return res.json({
+    return res.jsonp({
       code: Message.ok,
       token: token
     });
@@ -24,7 +24,7 @@ app.post('/', function (req, res, next) {
 
   // if not enough information given, failed the request
   if (!req.body.username || !req.body.password || !req.body.role) {
-    return res.json({
+    return res.jsonp({
       code: Message.badRequest
     });
   }
@@ -32,13 +32,13 @@ app.post('/', function (req, res, next) {
   Login(req.body.role, req.body.username, req.body.password)
     .then(function(profile) {
       if (!profile) {
-        res.json({
+        res.jsonp({
           code: 1
         });
       } else {
         var encrypted = { token: encryptAesSha256(cipherSecret, JSON.stringify(profile)) };
         var token = jwt.sign(encrypted, jwtSecret, {expireInMinutes: expireTime});
-        res.json({
+        res.jsonp({
           code: Message.ok,
           token: token,
           userid: profile.userid

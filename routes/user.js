@@ -10,11 +10,11 @@ app.get('/:role/:userid', function(req, res, next) {
   User(req.params.role, req.params.userid)
     .then(function(user) {
       if (!user) {
-        res.json({
+        res.jsonp({
           code: Message.notFound
         });
       }
-      res.json({
+      res.jsonp({
         code: Message.ok,
         user: user
       });

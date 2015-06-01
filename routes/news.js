@@ -12,11 +12,11 @@ app.get('/', function(req, res, next) {
       .then(function(news) {
         if (news.length === 0) {
           debug('Not found news: ' + req.param.newsid);
-          res.json({
+          res.jsonp({
             code: Message.notFound
           });
         }
-        res.json({
+        res.jsonp({
           code: Message.ok,
           news: news[0]
         });
@@ -33,7 +33,7 @@ app.get('/', function(req, res, next) {
     };
     News.getNews(query)
       .then(function(news) {
-        res.json({
+        res.jsonp({
           code: Message.ok,
           news: news
         });

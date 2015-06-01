@@ -16,4 +16,3 @@ exports.getNewsById = function(id) {
   return Knex('news')
     .where({ id: id });
 };
-
