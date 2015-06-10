@@ -16,3 +16,8 @@ exports.getNewsById = function(id) {
   return Knex('news')
     .where({ id: id });
 };
+
+exports.postNews = function(data) {
+  return Knex('news')
+    .insert(data);
+};

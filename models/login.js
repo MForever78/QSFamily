@@ -13,19 +13,21 @@ function login(role, username, password) {
   debug('with username: ' + username);
   debug('password: ' + password);
   return Knex(role)
-    .select('salt', 'password', 'id')
+    .select('salt', 'password', 'id', 'name')
     .where({ username: username })
     .then(function (rows) {
       if (rows.length === 0) {
         debug('no username found');
         return false;
       } else {
-        debug('user found: ' + rows[0].salt);
+        debug('user found');
         if (authenticate(rows[0], password)) {
+          debug('auth passed:', rows[0]);
           var profile = {
             role: role,
             username: username,
-            userid: rows[0].id
+            userid: rows[0].id,
+            name: rows[0].name
           };
           return profile;
         } else {
