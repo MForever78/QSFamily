@@ -8,19 +8,27 @@ var bodyParser = require('body-parser');
 var config = require('config');
 var port = process.env.PORT || 3000;
 
+/* initialize body parser */
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 /* jwt control */
 var Jwt = require('express-jwt');
 
 var jwtMiddleWare = Jwt({
   secret: config.get('jwtSecret'),
-  credentialsRequired: false
+  credentialsRequired: false,
+  getToken: function(req) {
+    if (!req.body) return null;
+    return req.body.token;
+  }
 });
 
 app.use(jwtMiddleWare);
 
-/* initialize body parser */
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+/* Allow CORS */
+var cors = require('cors');
+app.use(cors());
 
 /* routing */
 require('./routes')(app);
