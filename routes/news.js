@@ -12,11 +12,11 @@ app.get('/', function(req, res, next) {
       .then(function(news) {
         if (news.length === 0) {
           debug('Not found news: ' + req.param.newsid);
-          res.jsonp({
+          res.json({
             code: Message.notFound
           });
         }
-        res.jsonp({
+        res.json({
           code: Message.ok,
           news: news[0]
         });
@@ -33,13 +33,41 @@ app.get('/', function(req, res, next) {
     };
     News.getNews(query)
       .then(function(news) {
-        res.jsonp({
+        res.json({
           code: Message.ok,
           news: news
         });
       })
       .catch(function(err) {
         err.message = "Get news list error";
+        next(err);
+      });
+  }
+});
+
+app.post("/post", function(req, res, next) {
+  if (!req.user) {
+    res.json({
+      code: Message.forbidden
+    })
+  } else {
+    debug("Prepare posting news");
+    debug("token to be verify:", req.user.token);
+    req.decrypted = Token.decrypt(req.user.token);
+    debug("token decrypted:", req.decrypted);
+    var data = {
+      title: req.body.title,
+      author: req.decrypted.name,
+      content: req.body.content
+    };
+    News.postNews(data)
+      .then(function() {
+        res.json({
+          code: Message.ok
+        });
+      })
+      .catch(function(err) {
+        err.message = "Post news error";
         next(err);
       });
   }
