@@ -5,11 +5,9 @@
 var express = require('express');
 var app = module.exports = express();
 var debug = require('debug')('QSFamily:loginRoute')
-var cipherSecret = require('config').get('cipherSecret');
-var jwt = require('jsonwebtoken');
-var jwtSecret = require('config').get('jwtSecret');
 
 app.post('/', function (req, res, next) {
+  debug("Begin to auth");
   var hour = 60;
   var expireTime = req.body.rememberMe ? hour * 24 * 7 : hour / 2;
 
@@ -24,6 +22,7 @@ app.post('/', function (req, res, next) {
 
   // if not enough information given, failed the request
   if (!req.body.username || !req.body.password || !req.body.role) {
+    debug("Not enough info given");
     return res.jsonp({
       code: Message.badRequest
     });
@@ -32,13 +31,14 @@ app.post('/', function (req, res, next) {
   Login(req.body.role, req.body.username, req.body.password)
     .then(function(profile) {
       if (!profile) {
-        res.jsonp({
+        debug("Auth failed");
+        res.json({
           code: 1
         });
       } else {
-        var encrypted = { token: encryptAesSha256(cipherSecret, JSON.stringify(profile)) };
-        var token = jwt.sign(encrypted, jwtSecret, {expireInMinutes: expireTime});
-        res.jsonp({
+        debug("Auth succeed");
+        var token = Token.sign(profile, {expireInMinutes: expireTime});
+        res.json({
           code: Message.ok,
           token: token,
           userid: profile.userid
@@ -51,12 +51,3 @@ app.post('/', function (req, res, next) {
     });
 });
 
-function encryptAesSha256(secret, str) {
-  if (typeof(secret) !== 'string')
-    throw TypeError('cipher secret should be a string');
-  if (typeof(str) !== 'string')
-    throw TypeError('value to be encrypt should be a string');
-  var cipher = require('crypto').createCipher('aes-256-cbc', secret);
-  cipher.update(str, 'utf8');
-  return cipher.final('base64');
-}
