@@ -13,7 +13,7 @@ QSFamily website source code
     - Database: MySQL (for data storage), Redis (for session storage)
 - Frontend
     - UI Framework: Semantic UI
-    - Databinding: vue
+    - MVC Framework: Backbone.js
     - Video Player: video.js
 
 ## Database Structure
