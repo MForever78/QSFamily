@@ -4,7 +4,8 @@
 
 var express = require('express');
 var app = module.exports = express();
-var debug = require('debug')('QSFamily:loginRoute')
+var debug = require('debug')('QSFamily:loginRoute');
+var encrypt = require('../token-encryptor').encrypt;
 
 app.post('/', function (req, res, next) {
   debug("Begin to auth");
@@ -37,7 +38,7 @@ app.post('/', function (req, res, next) {
         });
       } else {
         debug("Auth succeed");
-        var token = Token.sign(profile, {expireInMinutes: expireTime});
+        var token = encrypt(profile, {expireInMinutes: expireTime});
         res.json({
           code: Message.ok,
           token: token,
