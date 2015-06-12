@@ -19,12 +19,16 @@ var jwtMiddleWare = Jwt({
   secret: config.get('jwtSecret'),
   credentialsRequired: false,
   getToken: function(req) {
-    if (!req.body) return null;
-    return req.body.token;
+    if (!req.body && !req.query.token) return null;
+    return req.body.token || req.query.token;
   }
 });
 
 app.use(jwtMiddleWare);
+
+/* Parse token */
+var tokenParser = require("./middleware/token-parser");
+app.use(tokenParser);
 
 /* Allow CORS */
 var cors = require('cors');

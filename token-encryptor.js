@@ -24,7 +24,7 @@ exports.decrypt = function(token) {
   return JSON.parse(deciphered);
 };
 
-exports.sign = function(data, opt) {
+exports.encrypt = function(data, opt) {
   var encrypted = { token: encryptAesSha256(cipherSecret, JSON.stringify(data)) };
   return jwt.sign(encrypted, jwtSecret, opt);
 };
