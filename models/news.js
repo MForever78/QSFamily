@@ -21,3 +21,15 @@ exports.postNews = function(data) {
   return Knex('news')
     .insert(data);
 };
+
+exports.deleteNews = function(id) {
+  return Knex('news')
+    .where('id', id)
+    .del();
+};
+
+exports.updateNews = function(id, data) {
+  return Knex('news')
+    .where('id', id)
+    .update(data);
+};
