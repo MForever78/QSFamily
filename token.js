@@ -17,14 +17,15 @@ function encryptAesSha256(secret, str) {
   return ciphered;
 }
 
-exports.sign = function(data, opt) {
-  var encrypted = { token: encryptAesSha256(cipherSecret, JSON.stringify(data)) };
-  return jwt.sign(encrypted, jwtSecret, opt);
-};
-
 exports.decrypt = function(token) {
   var decipher = require('crypto').createDecipher('aes-256-cbc', cipherSecret);
   var deciphered = decipher.update(token, 'base64', 'utf8');
   deciphered += decipher.final('utf8');
   return JSON.parse(deciphered);
 };
+
+exports.sign = function(data, opt) {
+  var encrypted = { token: encryptAesSha256(cipherSecret, JSON.stringify(data)) };
+  return jwt.sign(encrypted, jwtSecret, opt);
+};
+
