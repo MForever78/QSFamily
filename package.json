@@ -28,7 +28,7 @@
     "express-session": "^1.11.1",
     "jsonwebtoken": "^5.0.0",
     "knex": "^0.7.6",
-    "morgan": "^1.5.2",
+    "morgan": "^1.6.1",
     "mysql": "^2.6.2",
     "node-require-directory": "^1.0.2",
     "redis": "^0.12.1",
