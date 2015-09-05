@@ -15,7 +15,7 @@ app.post('/', function (req, res, next) {
   // if user has logged in, update expire time
   if (req.user) {
     var token = jwt.sign(req.user, jwtSecret, { expiresInMinutes: expireTime });
-    return res.jsonp({
+    return res.json({
       code: Message.ok,
       token: token
     });
@@ -24,7 +24,7 @@ app.post('/', function (req, res, next) {
   // if not enough information given, failed the request
   if (!req.body.username || !req.body.password || !req.body.role) {
     debug("Not enough info given");
-    return res.jsonp({
+    return res.json({
       code: Message.badRequest
     });
   }
@@ -41,12 +41,10 @@ app.post('/', function (req, res, next) {
         var token = encrypt(profile, {expireInMinutes: expireTime});
         res.json({
           code: Message.ok,
-          token: token,
-          userid: profile.userid
+          token: token
         });
       }
-    })
-    .catch(function(err) {
+    }).catch(function(err) {
       err.message = "Login failed";
       next(err);
     });

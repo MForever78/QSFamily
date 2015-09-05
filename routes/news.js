@@ -18,17 +18,11 @@ app.get("/:newsid", function(req, res, next) {
         });
       }
       debug('News found');
-      var role;
-      if (req.user) {
-        role = req.user.role;
-      }
       res.json({
         code: Message.ok,
-        news: news[0],
-        role: role
+        news: news[0]
       });
-    })
-    .catch(function(err) {
+    }).catch(function(err) {
       err.message = "Get news " + req.param.newsid + " error";
       next(err);
     });
@@ -46,8 +40,7 @@ app.get('/', function(req, res, next) {
         code: Message.ok,
         news: news
       });
-    })
-    .catch(function(err) {
+    }).catch(function(err) {
       err.message = "Get news list error";
       next(err);
     });
@@ -57,7 +50,7 @@ app.post("/post", function(req, res, next) {
   if (!req.user) {
     res.json({
       code: Message.forbidden
-    })
+    });
   } else {
     var data = {
       title: req.body.title,
@@ -69,8 +62,7 @@ app.post("/post", function(req, res, next) {
         res.json({
           code: Message.ok
         });
-      })
-      .catch(function(err) {
+      }).catch(function(err) {
         err.message = "Post news error";
         next(err);
       });
@@ -88,8 +80,7 @@ app.post("/delete", function(req, res, next) {
         res.json({
           code: Message.ok
         });
-      })
-      .catch(function(err) {
+      }).catch(function(err) {
         err.message = "Delete news error";
         next(err);
       });
@@ -107,8 +98,7 @@ app.post("/update", function(req, res, next) {
         res.json({
           code: Message.ok
         });
-      })
-      .catch(function(err) {
+      }).catch(function(err) {
         err.message = "Update news error";
         next(err);
       });

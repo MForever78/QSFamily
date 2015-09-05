@@ -14,7 +14,7 @@ exports.getNews = function(query) {
 
 exports.getNewsById = function(id) {
   return Knex('news')
-    .where({ id: id });
+    .where('id', id);
 };
 
 exports.postNews = function(data) {
