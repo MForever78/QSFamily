@@ -10,11 +10,11 @@ app.get('/:role/:userid', function(req, res, next) {
   User(req.params.role, req.params.userid)
     .then(function(user) {
       if (!user) {
-        res.jsonp({
+        res.json({
           code: Message.notFound
         });
       }
-      res.jsonp({
+      res.json({
         code: Message.ok,
         user: user
       });
@@ -24,3 +24,17 @@ app.get('/:role/:userid', function(req, res, next) {
       next(err);
     });
 });
+
+app.get('/', function(req, res) {
+  if (!req.user) {
+    return res.json({
+      code: Message.notFound
+    });
+  }
+  debug('User token verified: ', req.user);
+  res.json({
+    code: Message.ok,
+    user: user
+  });
+});
+
