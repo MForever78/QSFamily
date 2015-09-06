@@ -96,10 +96,14 @@ app.put("/:newsid", function(req, res, next) {
   } else {
     News.updateNews(req.params.newsid, req.body)
       .then(function() {
-        debug('update news ', req.params.newsid, 'succeed');
-        res.json({
-          code: Message.ok
-        });
+        debug('update news', req.params.newsid, 'succeed');
+        News.getNewsById(req.params.newsid)
+          .then(function(news) {
+            res.json({
+              code: Message.ok,
+              news: news[0]
+            });
+          });
       }).catch(function(err) {
         err.message = "Update news error";
         next(err);
