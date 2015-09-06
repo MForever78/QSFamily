@@ -58,10 +58,14 @@ app.post("/", function(req, res, next) {
       content: req.body.content
     };
     News.postNews(data)
-      .then(function() {
-        res.json({
-          code: Message.ok
-        });
+      .then(function(id) {
+        News.getNewsById(id)
+          .then(function(news) {
+            res.json({
+              code: Message.ok,
+              news: news[0]
+            });
+          });
       }).catch(function(err) {
         err.message = "Post news error";
         next(err);
