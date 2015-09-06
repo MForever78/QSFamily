@@ -27,10 +27,42 @@ role        | string    | one of "teacher", "student" and "assistant"
 
 ## News
 
+### Get news list
+
+```
+GET /news
+```
+
+#### Response
+
+```json
+{
+    "code": 200,
+    "newsList": [
+        {
+          "id": 4,
+          "title": "間演我的來論口華真而一",
+          "author": "me",
+          "content": "sample content",
+          "create_at": "2015-06-10T02:18:35.000Z",
+          "update_at": "2015-09-04T06:24:25.000Z"
+        },
+        {
+          "id": 2,
+          "title": "人系這家動陽問在人命而",
+          "author": "me",
+          "content": "sample content",
+          "create_at": "2015-06-09T12:09:10.000Z",
+          "update_at": null
+        }
+    ]
+}
+```
+
 ### Get news by id
 
 ```
-GET /:newsid
+GET /news/:newsid
 ```
 
 #### Response
