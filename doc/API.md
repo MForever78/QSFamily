@@ -81,3 +81,50 @@ GET /news/:newsid
     }
 }
 ```
+
+### Create news
+
+```
+POST /news
+```
+
+**Require Authorization header**
+
+#### Parameters
+
+Name        | Type      | Description
+----        | ----      | ----
+title       | string    | 
+content     | string    | HTML formated content
+
+#### Response
+
+The same as [Get news by id](#get-news-by-id).
+
+### Delete news
+
+```
+DELETE /news/:newsid
+```
+
+**Require Authorization header**
+
+#### Response
+
+```json
+{
+    "code": 200
+}
+```
+
+### Update news
+
+```
+PUT /news/:newsid
+```
+
+**Require Authorization header**
+
+#### Response
+
+The same as [Get news by id](#get-news-by-id).
