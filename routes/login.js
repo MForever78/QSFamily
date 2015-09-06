@@ -41,7 +41,11 @@ app.post('/', function (req, res, next) {
         var token = encrypt(profile, {expireInMinutes: expireTime});
         res.json({
           code: Message.ok,
-          token: token
+          token: token,
+          profile: {
+            name: profile.name,
+            role: profile.role
+          }
         });
       }
     }).catch(function(err) {
