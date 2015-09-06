@@ -31,5 +31,8 @@ exports.deleteNews = function(id) {
 exports.updateNews = function(id, data) {
   return Knex('news')
     .where('id', id)
-    .update(data);
+    .update({
+      title: data.title,
+      content: data.content
+    });
 };
