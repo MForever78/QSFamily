@@ -35,10 +35,10 @@ app.get('/', function(req, res, next) {
     order: req.param.order || 'desc'
   };
   News.getNews(query)
-    .then(function(news) {
+    .then(function(newsList) {
       res.json({
         code: Message.ok,
-        news: news
+        newsList: newsList
       });
     }).catch(function(err) {
       err.message = "Get news list error";
@@ -46,7 +46,7 @@ app.get('/', function(req, res, next) {
     });
 });
 
-app.post("/post", function(req, res, next) {
+app.post("/", function(req, res, next) {
   if (!req.user) {
     res.json({
       code: Message.forbidden
@@ -69,13 +69,13 @@ app.post("/post", function(req, res, next) {
   }
 });
 
-app.post("/delete", function(req, res, next) {
+app.delete("/:newsid", function(req, res, next) {
   if (!req.user) {
     res.json({
       code: Message.forbidden
     });
   } else {
-    News.deleteNews(req.body.newsid)
+    News.deleteNews(req.params.newsid)
       .then(function() {
         res.json({
           code: Message.ok
@@ -87,14 +87,16 @@ app.post("/delete", function(req, res, next) {
   }
 });
 
-app.post("/update", function(req, res, next) {
+app.put("/:newsid", function(req, res, next) {
   if (!req.user) {
+    debug('false user want to update news');
     res.json({
       code: Message.forbidden
     });
   } else {
-    News.updateNews(req.body.newsid, req.body.news)
+    News.updateNews(req.params.newsid, req.body)
       .then(function() {
+        debug('update news ', req.params.newsid, 'succeed');
         res.json({
           code: Message.ok
         });
