@@ -22,29 +22,29 @@ app.post('/', function (req, res, next) {
   }
 
   // if not enough information given, failed the request
-  if (!req.body.username || !req.body.password || !req.body.role) {
+  if (!req.body.username || !req.body.password) {
     debug("Not enough info given");
     return res.json({
       code: Message.badRequest
     });
   }
 
-  Login(req.body.role, req.body.username, req.body.password)
-    .then(function(profile) {
-      if (!profile) {
+  Login(req.body.username, req.body.password)
+    .then(function(user) {
+      if (!user) {
         debug("Auth failed");
         res.json({
           code: 1
         });
       } else {
         debug("Auth succeed");
-        var token = encrypt(profile, {expireInMinutes: expireTime});
+        var token = encrypt(user, {expireInMinutes: expireTime});
         res.json({
           code: Message.ok,
           token: token,
           profile: {
-            name: profile.name,
-            role: profile.role
+            name: user.name,
+            role: user.role
           }
         });
       }
