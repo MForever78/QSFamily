@@ -8,12 +8,11 @@ var debug = require('debug')('QSFamily:loginModel');
 
 module.exports = login;
 
-function login(role, username, password) {
-  debug('logging in into ' + role);
-  debug('with username: ' + username);
+function login(username, password) {
+  debug('login with username: ' + username);
   debug('password: ' + password);
-  return Knex(role)
-    .select('salt', 'password', 'id', 'name')
+  return Knex('user')
+    .select('salt', 'password', 'id', 'role', 'name')
     .where({ username: username })
     .then(function (rows) {
       if (rows.length === 0) {
@@ -23,13 +22,12 @@ function login(role, username, password) {
         debug('user found');
         if (authenticate(rows[0], password)) {
           debug('auth passed:', rows[0]);
-          var profile = {
-            role: role,
+          return {
+            role: rows[0].role,
             username: username,
-            userid: rows[0].id,
+            id: rows[0].id,
             name: rows[0].name
           };
-          return profile;
         } else {
           debug('wrong password');
           return false;
