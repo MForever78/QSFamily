@@ -7,6 +7,8 @@ var debug = require('debug')('QSFamily:newsModel');
 exports.getNews = function(query) {
   var offset = (query.page - 1) * query.limit;
   return Knex('news')
+    .innerJoin('user', 'news.author_id', 'user.id')
+    .select('news.id', 'news.title', 'user.name as author', 'news.content', 'news.create_at', 'news.update_at')
     .orderBy(query.orderBy, query.order)
     .limit(query.limit)
     .offset(offset);
@@ -14,7 +16,9 @@ exports.getNews = function(query) {
 
 exports.getNewsById = function(id) {
   return Knex('news')
-    .where('id', id);
+    .innerJoin('user', 'news.author_id', 'user.id')
+    .select('news.id', 'news.title', 'user.name as author', 'news.content', 'news.create_at', 'news.update_at')
+    .where('news.id', id);
 };
 
 exports.postNews = function(data) {
@@ -31,8 +35,5 @@ exports.deleteNews = function(id) {
 exports.updateNews = function(id, data) {
   return Knex('news')
     .where('id', id)
-    .update({
-      title: data.title,
-      content: data.content
-    });
+    .update(data);
 };
