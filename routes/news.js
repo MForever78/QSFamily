@@ -13,7 +13,7 @@ app.get("/:newsid", function(req, res, next) {
     .then(function(news) {
       if (news.length === 0) {
         debug('Not found news: ' + req.params.newsid);
-        res.json({
+        return res.json({
           code: Message.notFound
         });
       }
@@ -31,7 +31,7 @@ app.get("/:newsid", function(req, res, next) {
 app.get('/', function(req, res, next) {
   var query = {
     limit: req.param.limit || 30,
-    orderBy: req.param.orderBy || 'create_at',
+    orderBy: req.param.orderBy || 'news.create_at',
     order: req.param.order || 'desc'
   };
   News.getNews(query)
@@ -54,7 +54,7 @@ app.post("/", function(req, res, next) {
   } else {
     var data = {
       title: req.body.title,
-      author: req.user.name,
+      author_id: req.user.id,
       content: req.body.content
     };
     News.postNews(data)
@@ -98,7 +98,11 @@ app.put("/:newsid", function(req, res, next) {
       code: Message.forbidden
     });
   } else {
-    News.updateNews(req.params.newsid, req.body)
+    var data = {
+      title: req.body.title,
+      content: req.body.content
+    };
+    News.updateNews(req.params.newsid, data)
       .then(function() {
         debug('update news', req.params.newsid, 'succeed');
         News.getNewsById(req.params.newsid)
