@@ -31,7 +31,11 @@ app.post('/', function(req, res, next) {
 
 app.put('/:courseId', function(req, res, next) {
   debug('Updating course', req.params.courseId);
-  Course.updateCourse(req.params.courseId, req.body)
+  var data = {
+    course_name: req.body.course_name,
+    description: req.body.description
+  };
+  Course.updateCourse(req.params.courseId, data)
     .then(function() {
       debug('Update', req.params.coursId, "succeed");
       Course.getCourseById(req.params.courseId)

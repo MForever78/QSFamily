@@ -12,10 +12,7 @@ exports.getCourseById = function(courseId) {
 exports.updateCourse = function(courseId, data) {
   return Knex('course')
     .where('id', courseId)
-    .update({
-      course_name: data.course_name,
-      description: data.description
-    });
+    .update(data);
 };
 
 exports.deleteCourse = function(id) {
