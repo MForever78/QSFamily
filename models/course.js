@@ -5,8 +5,9 @@ exports.getCourseList = function() {
 };
 
 exports.getCourseById = function(courseId) {
-  return Knex('course')
-    .where("id", courseId);
+  return Knex.select('course.*', 'attachment_category.*')
+    .from('course')
+    .leftJoin('attachment_category', 'course.id', 'attachment_category.course_id')
 };
 
 exports.updateCourse = function(courseId, data) {

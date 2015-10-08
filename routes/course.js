@@ -7,10 +7,14 @@ app.get('/:courseId', function(req, res, next) {
   Course.getCourseById(req.params.courseId)
     .then(function(course) {
       debug('Found course', req.params.courseId);
+      debug(course);
       res.json({
         code: Message.ok,
         course: course[0]
       });
+    })
+    .catch(function(err) {
+      next(err);
     });
 });
 
