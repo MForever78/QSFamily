@@ -6,13 +6,13 @@ var minifycss = require("gulp-minify-css");
 var autoprefixer = require("gulp-autoprefixer");
 
 var src = {
-    style: "views/css/main.less",
-    script: "views/js/main.js"
+    style: "views/assets/css/main.less",
+    script: "views/assets/js/main.js"
 };
 
 var dest = {
     style: "public/css",
-    script: "views/js"
+    script: "public/js"
 };
 
 gulp.task("style", function() {

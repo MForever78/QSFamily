@@ -13,26 +13,20 @@ var port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+/* set view engine */
+app.set('views', __dirname + '/views');
+app.set('view engine', 'jade');
+
 /* logger */
 app.use(morgan('dev'));
 
-/* jwt control */
-var Jwt = require('express-jwt');
-
-var jwtMiddleWare = Jwt({
-  secret: config.get('jwtSecret'),
-  credentialsRequired: false
-});
-
-app.use(jwtMiddleWare);
-
-/* Parse token */
-var tokenParser = require("./middleware/token-parser");
-app.use(tokenParser);
-
-/* Allow CORS */
-var cors = require('cors');
-app.use(cors());
+/* session */
+var session = require('express-session');
+app.use(session({
+  secret: config.get('sessionSecret'),
+  resave: false,
+  saveUninitialized: false
+}));
 
 /* routing */
 require('./routes')(app);
@@ -44,4 +38,3 @@ require('./models');
 app.listen(port, function() {
   console.log("Server listening on port: " + port + "...");
 });
-
