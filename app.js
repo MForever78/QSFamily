@@ -9,6 +9,9 @@ var config = require('config');
 var morgan = require('morgan');
 var port = process.env.PORT || 3000;
 
+/* serve static files */
+app.use(express.static('public'));
+
 /* initialize body parser */
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
