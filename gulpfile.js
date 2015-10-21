@@ -36,10 +36,11 @@ gulp.task("script", function() {
 gulp.task("default", ['script']);
 
 gulp.task("watch", function() {
-    gulp.watch("views/css/**/*", ["style"]);
+    gulp.watch("views/assets/css/**/*", ["style"]);
+    gulp.watch("views/assets/js/*", ["script"]);
 
     livereload.listen();
 
-    gulp.watch(["public/*/**", "views"]).on("change", livereload.changed);
+    gulp.watch(["public/**/*", "views/*"]).on("change", livereload.changed);
 });
 
