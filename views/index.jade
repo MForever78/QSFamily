@@ -1,12 +1,16 @@
 //Created by MForever78 on 15/10/10.
 
-doctype html
-html(lang="zh")
-    head
-        meta(charset="utf-8")
-        meta(http-equiv="x-ua-compatible", content="ie=edge")
-        title 轻松家园
-        link(rel="stylesheet", href="css/main.js")
+extends layout/default
 
-    body
-        h1 Hello World
+
+block content
+    include include/header
+    .post-wrap
+        each news in newsList
+            article
+                .post-title
+                    a(href=news.url)= news.title
+                .post-meta
+                    span.post-date= news.date
+                    span.post-author= news.author
+                .post-content!= news.content
