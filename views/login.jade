@@ -1,0 +1,14 @@
+extends layout/default
+
+block content
+    include include/header
+    #login-wrap
+        form#login
+            .input-group
+                label(for="username") 用户名
+                input#username(type="text", placeholder="Username")
+            .input-group
+                label(for="password") 密码
+                input#password(type="password", placeholder="Password")
+            .input-group
+                button#submit.btn.btn-primary 登入

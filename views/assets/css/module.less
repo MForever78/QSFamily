@@ -1,3 +1,6 @@
+/*
+  Post
+*/
 .post-title {
   font-size: 2em;
   font-weight: bold;
@@ -36,8 +39,12 @@
   transition: all .2s ease;
 }
 
+/*
+  Course list
+*/
+
 .course-list {
-  width: 30%;
+  width: 25%;
   display: inline-block;
   list-style: none;
   vertical-align: top;
@@ -93,3 +100,48 @@
     line-height: 2em;
   }
 }
+
+/*
+  Form
+*/
+
+.input-group {
+  display: block;
+  margin-bottom: .5em;
+
+  label {
+    display: block;
+  }
+
+  input {
+    padding: 0.6em 1em;
+    border-radius: .2em;
+    border: 1px solid rgba(39,41,43,.15);
+    color: rgba(0, 0, 0, .5);
+    width: 100%;
+    outline: 0;
+  }
+}
+
+.btn {
+  cursor: pointer;
+  display: inline-block;
+  outline: 0;
+  padding: .6em 1.5em;
+  text-align: center;
+  text-decoration: none;
+  border-radius: .3em;
+  border: none;
+  background-color: #e0e0e0;
+  color: rgba(0, 0, 0, .6);
+}
+
+.btn.btn-primary {
+  color: #fff;
+  background-color: #5bbd72;
+
+  &:hover {
+    background-color: #66c17b;
+  }
+}
+
