@@ -22,7 +22,6 @@ var newsSchema = new Schema({
   create_at: {
     type: Date,
     "default": Date.now(),
-    required: true
   },
   update_at: Date
 });
