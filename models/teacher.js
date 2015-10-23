@@ -15,5 +15,5 @@ var teacherSchema = new Schema(
   }
 );
 
-var Teacher = User.discriminator('teacher', teacherSchema);
+var Teacher = User.discriminator('Teacher', teacherSchema);
 module.exports = Teacher;

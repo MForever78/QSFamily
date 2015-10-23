@@ -15,7 +15,9 @@ var courseSchema = new Schema({
     type: String
   },
 
-  attendee: [Schema.Types.ObjectId]
+  attendee: [Schema.Types.ObjectId],
+
+  attachment_category: [Schema.Types.ObjectId]
 });
 
 var Course = mongoose.model('Course', courseSchema);

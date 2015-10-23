@@ -22,5 +22,5 @@ var studentSchema = new Schema({
   course_taking: [Schema.Types.ObjectId]
 });
 
-var Student = User.discriminator('student', studentSchema);
+var Student = User.discriminator('Student', studentSchema);
 module.exports = Student;
