@@ -2,7 +2,8 @@
  * Created by MForever78 on 15/10/23.
  */
 
-var Schema = require('mongoose').Schema;
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
 var roles = ["teacher", "assistant", "student"];
 
@@ -54,4 +55,6 @@ userSchema.post('save', function() {
   this.update_at = new Date();
 });
 
-module.exports = userSchema;
+var User = mongoose.model('User', userSchema);
+
+module.exports = User;
