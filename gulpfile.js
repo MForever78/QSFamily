@@ -4,6 +4,7 @@ var less = require('gulp-less');
 var rename = require("gulp-rename");
 var minifycss = require("gulp-minify-css");
 var autoprefixer = require("gulp-autoprefixer");
+var uglify = require("gulp-uglify");
 
 var src = {
     style: "views/assets/css/main.less",
