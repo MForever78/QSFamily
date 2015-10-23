@@ -113,13 +113,19 @@
     display: block;
   }
 
-  input {
+  input[type=text], input[type=password] {
     padding: 0.6em 1em;
     border-radius: .2em;
     border: 1px solid rgba(39,41,43,.15);
     color: rgba(0, 0, 0, .5);
-    width: 100%;
     outline: 0;
+    width: 100%;
+  }
+
+  input[type=checkbox] {
+    margin-right: 5px;
+    cursor: pointer;
+    border: solid 1px #d4d4d5;
   }
 }
 
