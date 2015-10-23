@@ -7,49 +7,44 @@ var Schema = mongoose.Schema;
 
 var roles = ["teacher", "assistant", "student"];
 
-var roleValidator = function(value) {
-  return roles.indexOf(value) !== -1;
-};
+var userSchema = new Schema(
+  {
+    name: {
+      type: String,
+      required: true
+    },
 
-var userSchema = new Schema({
-  name: {
-    type: String,
-    required: true
+    username: {
+      type: String,
+      required: true,
+      unique: true,
+      index: true
+    },
+
+    salt: {
+      type: String,
+      required: true
+    },
+
+    password: {
+      type: String,
+      required: true
+    },
+
+    create_at: {
+      type: Date,
+      required: true,
+      "default": new Date()
+    },
+
+    update_at: {
+      type: Date
+    }
   },
-
-  username: {
-    type: String,
-    required: true,
-    unique: true,
-    index: true
-  },
-
-  salt: {
-    type: String,
-    required: true
-  },
-
-  password: {
-    type: String,
-    required: true
-  },
-
-  role: {
-    type: String,
-    required: true,
-    validate: roleValidator
-  },
-
-  create_at: {
-    type: Date,
-    required: true,
-    "default": new Date()
-  },
-
-  update_at: {
-    type: Date
+  {
+    discriminatorKey: 'role'
   }
-});
+);
 
 userSchema.post('save', function() {
   this.update_at = new Date();
