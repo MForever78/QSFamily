@@ -97,6 +97,9 @@ article {
   margin: 30px auto;
   position: relative;
 }
+/*
+  Post
+*/
 .post-title {
   font-size: 2em;
   font-weight: bold;
@@ -132,8 +135,11 @@ article {
   -webkit-transition: all .2s ease;
           transition: all .2s ease;
 }
+/*
+  Course list
+*/
 .course-list {
-  width: 30%;
+  width: 25%;
   display: inline-block;
   list-style: none;
   vertical-align: top;
@@ -180,6 +186,49 @@ article {
 .course-edit li {
   list-style: none;
   line-height: 2em;
+}
+/*
+  Form
+*/
+.input-group {
+  display: block;
+  margin-bottom: .5em;
+}
+.input-group label {
+  display: block;
+}
+.input-group input[type=text],
+.input-group input[type=password] {
+  padding: 0.6em 1em;
+  border-radius: .2em;
+  border: 1px solid rgba(39, 41, 43, 0.15);
+  color: rgba(0, 0, 0, 0.5);
+  outline: 0;
+  width: 100%;
+}
+.input-group input[type=checkbox] {
+  margin-right: 5px;
+  cursor: pointer;
+  border: solid 1px #d4d4d5;
+}
+.btn {
+  cursor: pointer;
+  display: inline-block;
+  outline: 0;
+  padding: .6em 1.5em;
+  text-align: center;
+  text-decoration: none;
+  border-radius: .3em;
+  border: none;
+  background-color: #e0e0e0;
+  color: rgba(0, 0, 0, 0.6);
+}
+.btn.btn-primary {
+  color: #fff;
+  background-color: #5bbd72;
+}
+.btn.btn-primary:hover {
+  background-color: #66c17b;
 }
 .is-hidden {
   display: none;
