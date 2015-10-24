@@ -17,7 +17,8 @@ var courseSchema = new Schema({
 
   attendee: [Schema.Types.ObjectId],
 
-  attachment_category: [Schema.Types.ObjectId]
+  attachment_category: [Schema.Types.ObjectId],
+
   create_at: {
     type: Date,
     "default": Date.now()
