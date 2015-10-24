@@ -197,6 +197,9 @@ article {
 .input-group label {
   display: block;
 }
+.input-group input {
+  box-sizing: border-box;
+}
 .input-group input[type=text],
 .input-group input[type=password] {
   padding: 0.6em 1em;
