@@ -17,7 +17,10 @@ function authenticate(user, key) {
 }
 
 app.get('/', function(req, res, next) {
-  res.render('login');
+  if (req.session.user) {
+    return res.redirect('/workspace');
+  }
+  res.render('login', {session: req.session});
 });
 
 app.post('/', function(req, res, next) {
