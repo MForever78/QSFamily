@@ -38,6 +38,7 @@ app.post('/', function(req, res, next) {
         var hour = 3600000;
         req.session.cookie.maxAge = req.body.remember ? hour * 24 * 30 * 6 : null;
         req.session.user = {
+          _id: user._id,
           username: user.username,
           name: user.name,
           role: user.role
