@@ -30,20 +30,18 @@ var userSchema = new Schema({
     required: true
   },
 
-  create_at: {
+  createAt: {
     type: Date,
     "default": new Date()
   },
 
-  update_at: {
-    type: Date
-  }
+  updateAt: Date
 }, {
     discriminatorKey: 'role'
 });
 
-userSchema.post('save', function() {
-  this.update_at = new Date();
+userSchema.pre('update', function() {
+  this.update({}, {$set: {updateAt: new Date()}});
 });
 
 var User = mongoose.model('User', userSchema);

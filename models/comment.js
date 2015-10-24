@@ -11,8 +11,8 @@ var commentSchema = ({
     required: true
   },
   quote: Schema.Types.ObjectId,
-  up_vote: Number,
-  down_vote: Number,
+  upVote: Number,
+  downVote: Number,
   author: {
     type: Schema.Types.ObjectId,
     required: true
@@ -21,9 +21,9 @@ var commentSchema = ({
     type: String,
     required: true
   },
-  create_at: {
+  createAt: {
     type: Date,
-    "default": Date.now()
+    "default": new Date()
   }
 });
 

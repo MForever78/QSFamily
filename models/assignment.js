@@ -7,7 +7,7 @@ var Schema = mongoose.Schema;
 
 var assignmentSchema = new Schema({
   course: Schema.Types.ObjectId,
-  due_date: {
+  dueDate: {
     type: Date,
     required: true
   },
@@ -20,15 +20,15 @@ var assignmentSchema = new Schema({
     required: true
   },
   description: String,
-  create_at: {
+  createAt: {
     type: Date,
-    "default": Date.now()
+    "default": new Date()
   },
-  update_at: Date
+  updateAt: Date
 });
 
-assignmentSchema.post('save', function() {
-  this.update_at = Date.now();
+assignmentSchema.pre('update', function() {
+  this.update({}, {$set: {updateAt: new Date()}});
 });
 
 var Assignment = mongoose.model('Assignment', assignmentSchema);
