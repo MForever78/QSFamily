@@ -17,17 +17,17 @@ var courseSchema = new Schema({
 
   attendee: [Schema.Types.ObjectId],
 
-  attachment_category: [Schema.Types.ObjectId],
+  attachmentCategory: [Schema.Types.ObjectId],
 
-  create_at: {
+  createAt: {
     type: Date,
-    "default": Date.now()
+    "default": new Date()
   },
-  update_at: Date
+  updateAt: Date
 });
 
-courseSchema.post('save', function() {
-  this.update_at = Date.now();
+courseSchema.pre('update', function() {
+  this.update({}, { $set: { updateAt: new Date() } });
 });
 
 var Course = mongoose.model('Course', courseSchema);

@@ -19,15 +19,15 @@ var newsSchema = new Schema({
   content: String,
 
   comments: [Schema.Types.ObjectId],
-  create_at: {
+  createAt: {
     type: Date,
-    "default": Date.now(),
+    "default": new Date()
   },
-  update_at: Date
+  updateAt: Date
 });
 
-newsSchema.post('save', function() {
-  this.update_at = Date.now();
+newsSchema.pre('update', function() {
+  this.update({}, {$set: {updateAt: new Date()}});
 });
 
 var News = mongoose.model('News', newsSchema);

@@ -21,9 +21,9 @@ var commentSchema = ({
     type: String,
     required: true
   },
-  create_at: {
+  createAt: {
     type: Date,
-    "default": Date.now()
+    "default": new Date()
   }
 });
 
