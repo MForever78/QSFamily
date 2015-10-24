@@ -3,7 +3,17 @@
  */
 
 $(function() {
+  var textarea = $('#write-content');
+  if (textarea.length !== 0) {
+    var editor = new Simditor({
+      textarea: textarea
+    });
+  }
+
   function bindEvents() {
+    /*
+      Course
+     */
     $('.course-tab').on('click', function(e) {
       e.preventDefault();
       var tab = $(e.currentTarget);
