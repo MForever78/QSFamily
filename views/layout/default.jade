@@ -28,10 +28,12 @@ html(lang="zh")
         meta(name="theme-color", content="#ffffff")
 
         link(rel="stylesheet", href="/css/normalize.css")
+        script(src="/js/jquery-2.1.4.min.js")
+
+    block stylesheet
         link(rel="stylesheet", href="/css/main.min.css")
 
     body
         block content
         block script
-            script(src="/js/jquery-2.1.4.min.js")
             script(src="/js/main.js")
