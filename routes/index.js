@@ -6,11 +6,13 @@ var routes = require('node-require-directory')(__dirname);
 
 module.exports = function(app) {
   app.use('/$', function(req, res, next) {
-    var newsList = [];
-    res.render('index', {
-      session: req.session,
-      newsList: newsList
-    });
+    News.find({})
+      .then(function(newsList) {
+        res.render('index', {
+          session: req.session,
+          newsList: newsList
+        });
+      })
   });
 
   Object.keys(routes).forEach(function(key) {
