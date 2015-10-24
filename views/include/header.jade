@@ -8,5 +8,9 @@ header#header
                 a(href="/") 首页
             li#nav-course
                 a(href="/course") 课程
-            li#nav-login
-                a(href="/login") 登入
+            if (!session.user)
+                li#nav-login
+                    a(href="/login") 登入
+            else
+                li#nav-workspace
+                    a(href="/workspace") 工作区
