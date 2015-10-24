@@ -1,21 +1,47 @@
 /**
- * Created by MForever78 on 15/5/9.
+ * Created by MForever78 on 15/10/23.
  */
 
-var debug = require('debug')('QSFamily:userModel');
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
-module.exports = {
-  getUserById: function(userid) {
-    debug('userid: ' + userid);
-    return Knex('user')
-      .where({id: userid})
-      .then(function(rows) {
-        if (rows.length === 0) {
-          debug('no user found with userid: ' + userid);
-          return false;
-        }
-        return rows[0];
-      });
-  }
-};
+var userSchema = new Schema({
+  name: {
+    type: String,
+    required: true
+  },
 
+  username: {
+    type: String,
+    required: true,
+    unique: true,
+    index: true
+  },
+
+  salt: {
+    type: String,
+    required: true
+  },
+
+  password: {
+    type: String,
+    required: true
+  },
+
+  createAt: {
+    type: Date,
+    "default": new Date()
+  },
+
+  updateAt: Date
+}, {
+    discriminatorKey: 'role'
+});
+
+userSchema.pre('update', function() {
+  this.update({}, {$set: {updateAt: new Date()}});
+});
+
+var User = mongoose.model('User', userSchema);
+
+module.exports = User;

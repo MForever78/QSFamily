@@ -1,39 +1,34 @@
 /**
- * Created by MForever78 on 15/5/23.
+ * Created by MForever78 on 15/10/23.
  */
 
-var debug = require('debug')('QSFamily:newsModel');
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
-exports.getNews = function(query) {
-  var offset = (query.page - 1) * query.limit;
-  return Knex('news')
-    .innerJoin('user', 'news.author_id', 'user.id')
-    .select('news.id', 'news.title', 'user.name as author', 'news.content', 'news.create_at', 'news.update_at')
-    .orderBy(query.orderBy, query.order)
-    .limit(query.limit)
-    .offset(offset);
-};
+var newsSchema = new Schema({
+  title: {
+    type: String,
+    required: true
+  },
 
-exports.getNewsById = function(id) {
-  return Knex('news')
-    .innerJoin('user', 'news.author_id', 'user.id')
-    .select('news.id', 'news.title', 'user.name as author', 'news.content', 'news.create_at', 'news.update_at')
-    .where('news.id', id);
-};
+  author: {
+    type: Schema.Types.ObjectId,
+    required: true
+  },
 
-exports.postNews = function(data) {
-  return Knex('news')
-    .insert(data);
-};
+  content: String,
 
-exports.deleteNews = function(id) {
-  return Knex('news')
-    .where('id', id)
-    .del();
-};
+  comments: [Schema.Types.ObjectId],
+  createAt: {
+    type: Date,
+    "default": new Date()
+  },
+  updateAt: Date
+});
 
-exports.updateNews = function(id, data) {
-  return Knex('news')
-    .where('id', id)
-    .update(data);
-};
+newsSchema.pre('update', function() {
+  this.update({}, {$set: {updateAt: new Date()}});
+});
+
+var News = mongoose.model('News', newsSchema);
+module.exports = News;

@@ -1,0 +1,25 @@
+extends layout/default
+
+block content
+    include include/header
+    #course-list-wrap
+        ul.course-list
+            each course in courseList
+                li.course-tab
+                    a(href="javascript:void(0)", data-target="#course-" + course.id)= course.course_name
+                if (editable)
+                    .course-add
+                        i.fa.fa-plus
+                        a(href="javascript:void(0)", data-action="new") 增加课程
+        .course-desc
+            each course in courseList
+                .course-content.fade(id="course-" + course.id)
+                    if (editable)
+                        ul.course-edit
+                            li.course-edit-item
+                                i.fa.fa-edit
+                                a(href="javascript:void(0)", data-id=course.id, data-action="edit") 编辑
+                            li.course-edit-item
+                                i.fa.fa-trash
+                                a(href="javascript:void(0)", data-id=course.id, data-action="delete") 删除
+                    != course.description

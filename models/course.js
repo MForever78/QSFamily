@@ -1,28 +1,34 @@
-var debug = require('debug')('QSFamily:courseModel');
+/**
+ * Created by MForever78 on 15/10/23.
+ */
 
-exports.getCourseList = function() {
-  return Knex('course');
-};
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
-exports.getCourseById = function(courseId) {
-  return Knex.select('course.*', 'attachment_category.*')
-    .from('course')
-    .leftJoin('attachment_category', 'course.id', 'attachment_category.course_id')
-};
+var courseSchema = new Schema({
+  name: {
+    type: String,
+    required: true
+  },
 
-exports.updateCourse = function(courseId, data) {
-  return Knex('course')
-    .where('id', courseId)
-    .update(data);
-};
+  "description": {
+    type: String
+  },
 
-exports.deleteCourse = function(id) {
-  return Knex('course')
-    .where('id', id)
-    .del();
-};
+  attendee: [Schema.Types.ObjectId],
 
-exports.createCourse = function(data) {
-  return Knex('course')
-    .insert(data);
-};
+  attachmentCategory: [Schema.Types.ObjectId],
+
+  createAt: {
+    type: Date,
+    "default": new Date()
+  },
+  updateAt: Date
+});
+
+courseSchema.pre('update', function() {
+  this.update({}, { $set: { updateAt: new Date() } });
+});
+
+var Course = mongoose.model('Course', courseSchema);
+module.exports = Course;

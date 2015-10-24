@@ -5,6 +5,10 @@
 var routes = require('node-require-directory')(__dirname);
 
 module.exports = function(app) {
+  app.use('/$', function(req, res, next) {
+    res.render('index');
+  });
+
   Object.keys(routes).forEach(function(key) {
     if (key === 'index') return;
     app.use('/' + key, routes[key]);
@@ -13,13 +17,13 @@ module.exports = function(app) {
   // error handling
   app.use(function(req, res, next) {
     // nothing found
-    res.json({ code: Message.notFound });
+    res.sendStatus(404);
   });
 
   app.use(function(err, req, res, next) {
     // error
     console.log(err.stack);
-    res.json({ code: Message.internalServerError });
+    res.sendStatus(500);
   });
 };
 

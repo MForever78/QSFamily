@@ -1,56 +1,47 @@
 /**
- * Created by MForever78 on 15/5/1.
+ * Created by MForever78 on 15/10/22.
  */
 
-var express = require('express');
-var app = module.exports = express();
-var debug = require('debug')('QSFamily:loginRoute');
-var encrypt = require('../token-encryptor').encrypt;
+var app = require('express')();
+var debug = require('debug')('QSFamily:route:login');
+var crypto = require('crypto');
+var saltPos = require('config').get('saltPos');
 
-app.post('/', function (req, res, next) {
-  debug("Begin to auth");
-  var hour = 60;
-  var expireTime = req.body.rememberMe ? hour * 24 * 7 : hour / 2;
+function authenticate(user, key) {
+  var hash = crypto.createHash('sha512');
+  var password = hash.update(key.slice(0, saltPos))
+    .update(user.salt)
+    .update(key.slice(saltPos))
+    .digest('base64');
+  return user.password === password;
+}
 
-  // if user has logged in, update expire time
-  if (req.user) {
-    var token = jwt.sign(req.user, jwtSecret, { expiresInMinutes: expireTime });
-    return res.json({
-      code: Message.ok,
-      token: token
-    });
-  }
+app.get('/', function(req, res, next) {
+  res.render('login');
+});
 
-  // if not enough information given, failed the request
-  if (!req.body.username || !req.body.password) {
-    debug("Not enough info given");
-    return res.json({
-      code: Message.badRequest
-    });
-  }
+app.post('/', function(req, res, next) {
+  debug('Begin login auth');
 
-  Login(req.body.username, req.body.password)
+  User.findOne({username: req.body.username})
     .then(function(user) {
       if (!user) {
-        debug("Auth failed");
-        res.json({
-          code: 1
-        });
-      } else {
-        debug("Auth succeed");
-        var token = encrypt(user, {expireInMinutes: expireTime});
-        res.json({
-          code: Message.ok,
-          token: token,
-          profile: {
-            name: user.name,
-            role: user.role
-          }
-        });
+        debug("Username doesn't exist");
+        return res.render('login', {error: true});
       }
-    }).catch(function(err) {
-      err.message = "Login failed";
-      next(err);
+      debug("Found username:", user.username);
+      if (authenticate(user, req.body.password)) {
+        debug('Auth passed for user:', user.username);
+        var hour = 3600000;
+        req.session.cookie.maxAge = req.body.remember ? hour * 24 * 30 * 6 : null;
+        req.session.user = {
+          username: user.username,
+          name: user.name,
+          role: user.role
+        };
+        res.redirect('/workspace');
+      }
     });
 });
 
+module.exports = app;

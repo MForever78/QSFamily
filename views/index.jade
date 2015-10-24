@@ -1,0 +1,13 @@
+extends layout/default
+
+block content
+    include include/header
+    .post-wrap
+        each news in newsList
+            article
+                .post-title
+                    a(href=news.url)= news.title
+                .post-meta
+                    span.post-date= news.date
+                    span.post-author= news.author
+                .post-content!= news.content

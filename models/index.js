@@ -4,10 +4,11 @@
 
 var models = require('node-require-directory')(__dirname);
 var config = require('config');
+var mongoose = require('mongoose');
 
-var knex = require('knex')({
-  client: 'mysql',
-  connection: config.mysql
+mongoose.connect('mongodb://localhost/qsfamily', {
+  user: config.get('db.username'),
+  pass: config.get('db.password')
 });
 
 Object.keys(models).forEach(function(key) {
@@ -15,8 +16,6 @@ Object.keys(models).forEach(function(key) {
   var modelName = capitaliseFirstLetter(key);
   global[modelName] = models[key];
 });
-
-global.Knex = knex;
 
 function capitaliseFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
