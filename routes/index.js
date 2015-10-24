@@ -5,7 +5,7 @@
 var routes = require('node-require-directory')(__dirname);
 
 module.exports = function(app) {
-  app.use('/', function(req, res, next) {
+  app.use('/$', function(req, res, next) {
     res.render('index');
   });
 

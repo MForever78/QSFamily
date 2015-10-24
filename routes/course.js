@@ -1,3 +1,7 @@
-/**
- * Created by MForever78 on 15/10/21.
- */
+var app = require('express')();
+
+app.get('/', function(req, res, next) {
+  res.render('course-list');
+});
+
+module.exports = app;
