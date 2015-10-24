@@ -27,5 +27,9 @@ var assignmentSchema = new Schema({
   update_at: Date
 });
 
+assignmentSchema.post('save', function() {
+  this.update_at = Date.now();
+});
+
 var Assignment = mongoose.model('Assignment', assignmentSchema);
 module.exports = Assignment;

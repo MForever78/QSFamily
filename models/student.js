@@ -29,6 +29,8 @@ var studentSchema = new Schema({
     attachment_url: String,
     remark: String
   }]
+}, {
+  discriminatorKey: 'role'
 });
 
 var Student = User.discriminator('Student', studentSchema);

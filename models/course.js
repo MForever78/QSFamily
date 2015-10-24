@@ -18,6 +18,15 @@ var courseSchema = new Schema({
   attendee: [Schema.Types.ObjectId],
 
   attachment_category: [Schema.Types.ObjectId]
+  create_at: {
+    type: Date,
+    "default": Date.now()
+  },
+  update_at: Date
+});
+
+courseSchema.post('save', function() {
+  this.update_at = Date.now();
 });
 
 var Course = mongoose.model('Course', courseSchema);

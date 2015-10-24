@@ -16,7 +16,18 @@ var attachmentCategorySchema = new Schema({
     url: String,
     title: String,
     type: String
-  }]
+  }],
+
+  create_at: {
+    type: Date,
+    "default": Date.now()
+  },
+
+  update_at: Date
+});
+
+attachmentCategorySchema.post('save', function() {
+  this.update_at = Date.now();
 });
 
 var AttachmentCategory = mongoose.model('AttachmentCategory', attachmentCategorySchema);

@@ -10,6 +10,8 @@ var assistantSchema = new Schema({
   email: String,
   phone: String,
   course_assisting: [Schema.Types.ObjectId]
+}, {
+  discriminatorKey: 'role'
 });
 
 var Assistant = User.discriminator('Assistant', assistantSchema);
