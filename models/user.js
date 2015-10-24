@@ -5,8 +5,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var roles = ["teacher", "assistant", "student"];
-
 var userSchema = new Schema({
   name: {
     type: String,
