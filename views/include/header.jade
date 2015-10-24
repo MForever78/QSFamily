@@ -12,5 +12,8 @@ header#header
                 li#nav-login
                     a(href="/login") 登入
             else
+                if (session.user.role === 'Teacher')
+                    li#nav-write
+                        a(href="/write") 撰写公告
                 li#nav-workspace
                     a(href="/workspace") 工作区
