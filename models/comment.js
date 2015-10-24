@@ -20,6 +20,10 @@ var commentSchema = ({
   content: {
     type: String,
     required: true
+  },
+  create_at: {
+    type: Date,
+    "default": Date.now()
   }
 });
 

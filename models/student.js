@@ -19,7 +19,16 @@ var studentSchema = new Schema({
   qq: String,
   gender: String,
 
-  course_taking: [Schema.Types.ObjectId]
+  course_taking: [Schema.Types.ObjectId],
+  assignments: [{
+    ref: Schema.Types.ObjectId,
+    grade: Number,
+    visible: Boolean,
+    complete: Boolean,
+    update_at: Date,
+    attachment_url: String,
+    remark: String
+  }]
 });
 
 var Student = User.discriminator('Student', studentSchema);

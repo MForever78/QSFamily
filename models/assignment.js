@@ -19,7 +19,12 @@ var assignmentSchema = new Schema({
     type: String,
     required: true
   },
-  description: String
+  description: String,
+  create_at: {
+    type: Date,
+    "default": Date.now()
+  },
+  update_at: Date
 });
 
 var Assignment = mongoose.model('Assignment', assignmentSchema);
