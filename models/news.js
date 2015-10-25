@@ -13,12 +13,16 @@ var newsSchema = new Schema({
 
   author: {
     type: Schema.Types.ObjectId,
+    ref: 'User',
     required: true
   },
 
   content: String,
 
-  comments: [Schema.Types.ObjectId],
+  comments: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Comment'
+  }],
   createAt: {
     type: Date,
     "default": new Date()

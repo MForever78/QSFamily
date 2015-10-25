@@ -15,9 +15,15 @@ var courseSchema = new Schema({
     type: String
   },
 
-  attendee: [Schema.Types.ObjectId],
+  attendee: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Student'
+  }],
 
-  attachmentCategory: [Schema.Types.ObjectId],
+  attachmentCategory: [{
+    type: Schema.Types.ObjectId,
+    ref: 'AttachmentCategory'
+  }],
 
   createAt: {
     type: Date,

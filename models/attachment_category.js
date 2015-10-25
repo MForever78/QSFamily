@@ -11,7 +11,10 @@ var attachmentCategorySchema = new Schema({
     required: true
   },
 
-  course: Schema.Types.ObjectId,
+  course: {
+    type: Schema.Types.ObjectId,
+    ref: 'Course'
+  },
   attachments: [{
     url: String,
     title: String,

@@ -19,9 +19,15 @@ var studentSchema = new Schema({
   qq: String,
   gender: String,
 
-  course_taking: [Schema.Types.ObjectId],
+  course_taking: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Course'
+  }],
   assignments: [{
-    ref: Schema.Types.ObjectId,
+    reference: {
+      type: Schema.Types.ObjectId,
+      ref: 'Assignment'
+    },
     grade: Number,
     visible: Boolean,
     complete: Boolean,

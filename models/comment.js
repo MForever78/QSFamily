@@ -8,13 +8,18 @@ var Schema = mongoose.Schema;
 var commentSchema = ({
   news: {
     type: Schema.Types.ObjectId,
+    ref: 'News',
     required: true
   },
-  quote: Schema.Types.ObjectId,
+  quote: {
+    type: Schema.Types.ObjectId,
+    ref: 'Comment'
+  },
   upVote: Number,
   downVote: Number,
   author: {
     type: Schema.Types.ObjectId,
+    ref: 'User',
     required: true
   },
   content: {

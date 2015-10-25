@@ -9,7 +9,10 @@ var User = require('./user');
 var assistantSchema = new Schema({
   email: String,
   phone: String,
-  course_assisting: [Schema.Types.ObjectId]
+  course_assisting: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Course'
+  }]
 }, {
   discriminatorKey: 'role'
 });

@@ -6,7 +6,10 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var assignmentSchema = new Schema({
-  course: Schema.Types.ObjectId,
+  course: {
+    type: Schema.Types.ObjectId,
+    ref: 'Course'
+  },
   dueDate: {
     type: Date,
     required: true
