@@ -8,9 +8,7 @@ prepend script
     script(src="/js/hotkeys.min.js")
     script(src="/js/simditor.min.js")
 
-block content
-    include include/header
-
+append content
     #write-wrap
         form#write-form(action=action, method=method)
             .input-group

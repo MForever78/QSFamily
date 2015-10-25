@@ -1,7 +1,6 @@
 extends layout/default
 
-block content
-    include include/header
+append content
     .post-wrap
         each news in newsList
             article
@@ -9,5 +8,5 @@ block content
                     a(href=news.url)= news.title
                 .post-meta
                     span.post-date= news.date
-                    span.post-author= news.author
+                    span.post-author= news.author.name
                 .post-content!= news.content
