@@ -7,7 +7,7 @@ var Schema = mongoose.Schema;
 var User = require('./user');
 
 var studentSchema = new Schema({
-  student_id: {
+  studentId: {
     type: String,
     required: true,
     unique: true,
@@ -19,7 +19,7 @@ var studentSchema = new Schema({
   qq: String,
   gender: String,
 
-  course_taking: [{
+  courseTaking: [{
     type: Schema.Types.ObjectId,
     ref: 'Course'
   }],
@@ -31,8 +31,8 @@ var studentSchema = new Schema({
     grade: Number,
     visible: Boolean,
     complete: Boolean,
-    update_at: Date,
-    attachment_url: String,
+    updateAt: Date,
+    attachmentUrl: String,
     remark: String
   }]
 }, {
