@@ -5,7 +5,7 @@ append content
         ul.course-list
             each course in courseList
                 li.course-tab
-                    a(href="javascript:void(0)", data-target="#course-" + course.id)= course.course_name
+                    a(href="javascript:void(0)", data-target="#course-" + course.id)= course.name
                 if (session.user && session.user.role === "Teacher")
                     .course-add
                         i.fa.fa-plus
