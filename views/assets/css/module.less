@@ -155,3 +155,44 @@
   }
 }
 
+/* workspace */
+
+.workspace-header {
+  h3 {
+    margin: 0;
+    display: inline-block;
+  }
+
+  hr {
+    display: inline-block;
+    width: 100%;
+    background-image: linear-gradient(to right,rgba(0,0,0,.12) 0,rgba(0,0,0,0) 100%);
+    height: 1px;
+    border: 0;
+  }
+}
+
+.workspace-list {
+  list-style: none;
+
+  h4 {
+    margin: 0;
+  }
+}
+
+.workspace-item {
+  float: left;
+  border: solid 1px #eee;
+  border-radius: 5px;
+  width: 265px;
+  height: 135px;
+  animation: zoom .5s ease-out;
+  transition: box-shadow ease-in-out 218ms,transform 218ms ease-in-out;
+  cursor: pointer;
+  padding: 10px 15px;
+  box-sizing: border-box;
+}
+
+.workspace-item:hover {
+  box-shadow: 0 7px 21px rgba(0,0,0,.15);
+}
