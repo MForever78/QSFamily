@@ -1,4 +1,13 @@
 extends layout/default
 
 append content
-
+    #workspace-wrap
+        #workspace-content-wrap
+            header.workspace-header
+                h3 选择课程
+                hr
+            ul.workspace-list
+                each course in courseList
+                    a(href="/workspace/course/" + course._id)
+                        li.workspace-item
+                            h4= course.name
