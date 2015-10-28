@@ -25,6 +25,11 @@ var courseSchema = new Schema({
     ref: 'AttachmentCategory'
   }],
 
+  assignments: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Assignment'
+  }],
+
   createAt: {
     type: Date,
     "default": new Date()

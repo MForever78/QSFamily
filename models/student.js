@@ -9,9 +9,7 @@ var User = require('./user');
 var studentSchema = new Schema({
   studentId: {
     type: String,
-    required: true,
-    unique: true,
-    index: true
+    required: true
   },
 
   phone: String,
