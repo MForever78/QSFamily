@@ -6,7 +6,7 @@ var app = require('express')();
 var debug = require('debug')('QSFamily:route:logout');
 
 app.get('/', function(req, res, next) {
-  req.session = null;
+  req.session.destroy();
   return res.redirect('/');
 });
 
