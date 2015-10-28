@@ -7,7 +7,8 @@ append content
                 h3 选择课程
                 hr
             ul.workspace-list
-                each course in courseList
-                    a(href="/workspace/course/" + course._id)
-                        li.workspace-item
-                            h4= course.name
+                if (courseList.length > 0)
+                    each course in courseList
+                        a(href="/workspace/" + session.user.role + "/course/" + course._id)
+                            li.workspace-item
+                                h4= course.name
