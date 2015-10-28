@@ -22,9 +22,9 @@ app.get('/', function(req, res, next) {
       // Students can only see the courses they are taking
       return Student.findById(req.session.user._id)
         .populate('courseTaking')
-        .then(function(courseList) {
+        .then(function(user) {
           return res.render('workspace', {
-            courseList: courseList,
+            courseList: user.courseTaking,
             session: req.session
           });
         });
@@ -39,6 +39,31 @@ app.get('/', function(req, res, next) {
           });
         });
   }
+});
+
+app.get('/student/course/:id', auth('Student'), function(req, res, next) {
+  return Student.findById(req.session.user._id)
+    .populate('assignments.reference')
+    .then(function(user) {
+      var assignments = user.assignments.filter(function(assignment) {
+        return assignment.course === req.params.id;
+      });
+      return res.render('assignment', {
+        session: req.session,
+        assignments: assignments
+      });
+    });
+});
+
+app.get('/teacher/course/:id', auth('Teacher'), function(req, res, next) {
+  return Course.findById(req.params.id)
+    .populate('assignments')
+    .then(function(assignments) {
+      return res.render('assignment', {
+        session: req.session,
+        assignments: assignments
+      });
+    });
 });
 
 module.exports = app;
