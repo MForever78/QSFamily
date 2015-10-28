@@ -16,13 +16,10 @@ function cookPassword(key, salt) {
 }
 
 app.post('/', function(req, res, next) {
-  if (!req.session.user) return res.redirect('/');
-  if (req.session.user.role !== "Teacher") {
-    debug('Invalid user privilege for registering:', req.session.user.username);
-    req.session = null;
-    return res.redirect('/');
-  }
   var salt = crypto.randomBytes(64).toString('base64');
+  debug("New user:");
+  debug("Username:", req.body.username);
+  debug("Role:", req.body.role);
   var user = {
     username: req.body.username,
     salt: salt,
@@ -43,10 +40,13 @@ app.post('/', function(req, res, next) {
           return res.json({code: 0});
         });
     case "Student":
+      user.studentId = req.body.studentId;
       return Student.create(user)
         .then(function(student) {
           debug('Create student:', student.username);
           return res.json({code: 0});
+        }).onReject(function(err) {
+          next(err);
         });
     default: return res.json({code: -1, message: "Invalid user role"});
   }
