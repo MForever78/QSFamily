@@ -14,14 +14,21 @@ append content
                         a(href="#") 作业管理
                     li
                         a(href="#") 课件管理
-        .assignment-wrap.panel-group
+        #assignment-wrap.panel-group
             if (assignments.length > 0)
                 each assignment in assignments
-                    .panel-heading
-                        h4.panel-title
-                            a(href="#" + assignment._id)= assignment.title
-                    .panel-collapse(id=assignment._id)
-                        .panel-body= assignment.description
-                        .panel-foot
-                            .btn.btn-default 选择文件
-                            .btn.btn-primary 上传
+                    .panel
+                        .panel-heading
+                            h3.panel-title
+                                a(href="javascript:void(0)", data-action="toggle", data-target="#" + assignment._id)= assignment.title
+                        .panel-collapse(id=assignment._id)
+                            .panel-body
+                                h4 提交截止时间
+                                p= assignment.dueDateFormated
+                                h4 最后期限
+                                p= assignment.deadlineFormated
+                                h4 说明
+                                p= assignment.description
+                            .panel-foot
+                                .btn.btn-default.btn-small 选择文件
+                                .btn.btn-primary.btn-small 上传

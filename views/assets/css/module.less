@@ -155,6 +155,10 @@
   }
 }
 
+.btn-small {
+  padding: .5em 1em;
+}
+
 /* workspace */
 
 .workspace-header {
@@ -212,5 +216,60 @@
   li {
     padding: 20px 20px;
     display: inline-block;
+  }
+}
+
+/* assignment */
+.panel-group {
+  h3, h4, p {
+    margin: 0;
+    font-size: 1em;
+  }
+
+  h3, h4 {
+    font-weight: bold;
+  }
+}
+
+.panel {
+  border: solid 1px #ddd;
+  border-radius: 3px;
+  margin-top: 5px;
+  margin-bottom: 0;
+
+  &:first-child {
+    margin-top: 0;
+  }
+}
+
+.panel-heading {
+  padding: 10px;
+  background-color: #f5f5f5;
+}
+
+.panel-heading:first-child {
+  margin-top: 0;
+}
+
+.panel-collapse {
+  display: none;
+}
+
+.panel-collapse.in {
+  display: block;
+}
+
+.panel-body {
+  border-top: solid 1px #ddd;
+  padding: 10px 30px;
+}
+
+.panel-foot {
+  text-align: right;
+  border-top: solid 1px #ddd;
+  padding: 10px;
+
+  .btn {
+    margin-left: 10px;
   }
 }

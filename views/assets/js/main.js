@@ -45,4 +45,14 @@ $(function() {
   $('a[data-action=new]').on('click', function() {
     window.href = '/write/course';
   });
+
+  /*
+    Assignment
+   */
+  $('a[data-action=toggle]').on('click', function(e) {
+    e.preventDefault();
+    var $target = $(this.dataset.target);
+    $target.parents('.panel-group').find('.in').removeClass('in');
+    $target.addClass('in');
+  });
 });
