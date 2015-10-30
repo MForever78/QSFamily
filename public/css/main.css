@@ -112,6 +112,11 @@ article {
   margin: auto;
   padding: 50px 0;
 }
+#assignment-wrap {
+  width: 1000px;
+  margin: auto;
+  padding-top: 50px;
+}
 /*
   Post
 */
@@ -248,6 +253,9 @@ article {
 .btn.btn-primary:hover {
   background-color: #66c17b;
 }
+.btn-small {
+  padding: .5em 1em;
+}
 /* workspace */
 .workspace-header h3 {
   margin: 0;
@@ -298,6 +306,51 @@ article {
 .workspace-nav li {
   padding: 20px 20px;
   display: inline-block;
+}
+/* assignment */
+.panel-group h3,
+.panel-group h4,
+.panel-group p {
+  margin: 0;
+  font-size: 1em;
+}
+.panel-group h3,
+.panel-group h4 {
+  font-weight: bold;
+}
+.panel {
+  border: solid 1px #ddd;
+  border-radius: 3px;
+  margin-top: 5px;
+  margin-bottom: 0;
+}
+.panel:first-child {
+  margin-top: 0;
+}
+.panel-heading {
+  padding: 10px;
+  background-color: #f5f5f5;
+}
+.panel-heading:first-child {
+  margin-top: 0;
+}
+.panel-collapse {
+  display: none;
+}
+.panel-collapse.in {
+  display: block;
+}
+.panel-body {
+  border-top: solid 1px #ddd;
+  padding: 10px 30px;
+}
+.panel-foot {
+  text-align: right;
+  border-top: solid 1px #ddd;
+  padding: 10px;
+}
+.panel-foot .btn {
+  margin-left: 10px;
 }
 .is-hidden {
   display: none;
