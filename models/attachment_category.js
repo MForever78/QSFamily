@@ -13,7 +13,8 @@ var attachmentCategorySchema = new Schema({
 
   course: {
     type: Schema.Types.ObjectId,
-    ref: 'Course'
+    ref: 'Course',
+    required: true
   },
   attachments: [{
     url: String,
@@ -29,7 +30,7 @@ var attachmentCategorySchema = new Schema({
   update_at: Date
 });
 
-attachmentCategorySchema.post('save', function() {
+attachmentCategorySchema.pre('save', function() {
   this.update_at = Date.now();
 });
 

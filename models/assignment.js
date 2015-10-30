@@ -8,7 +8,8 @@ var Schema = mongoose.Schema;
 var assignmentSchema = new Schema({
   course: {
     type: Schema.Types.ObjectId,
-    ref: 'Course'
+    ref: 'Course',
+    required: true
   },
   dueDate: {
     type: Date,
@@ -28,6 +29,13 @@ var assignmentSchema = new Schema({
     "default": new Date()
   },
   updateAt: Date
+});
+
+// delete cascade to Student
+assignmentSchema.pre('remove', function() {
+  Student.update({ "assignments.reference": this._id }, {
+    $pop: { "assignments.reference": this._id }
+  }).exec();
 });
 
 assignmentSchema.pre('update', function() {

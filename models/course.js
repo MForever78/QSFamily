@@ -37,6 +37,18 @@ var courseSchema = new Schema({
   updateAt: Date
 });
 
+// delete cascade to Assignment, Student, Assistant and AttachmentCategory
+courseSchema.pre('remove', function() {
+  Assignment.remove({ course: this._id }).exec();
+  Student.update({ courseTaking: this._id }, {
+    $pop: { courseTaking: this._id }
+  }).exec();
+  Assistant.update({ courseAssisting: this._id }, {
+    $pop: { courseAssisting: this._id }
+  }).exec();
+  AttachmentCategory.remove({ course: this._id }).exec();
+});
+
 courseSchema.pre('update', function() {
   this.update({}, { $set: { updateAt: new Date() } });
 });
