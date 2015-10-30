@@ -12,7 +12,7 @@ module.exports = function(app) {
         // Add following property:
         //    news.date with format: "XXXX 年 YY 月 ZZ 日"
         //    news.url: "/news/<ObjectId>"
-        newsList = newsList.map(function(news) {
+        var newsList = newsList.map(function(news) {
           var date = news.createAt;
           news.date = date.getFullYear() + ' 年 ' + (date.getMonth() + 1) + ' 月 ' + date.getDate() + ' 日';
           news.url = "/news/" + news._id;

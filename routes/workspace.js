@@ -5,6 +5,7 @@
 var app = require('express')();
 var debug = require('debug')('QSFamily:route:workspace');
 var auth = require('../middleware/auth');
+var format = require('../utils/dateFormat');
 
 app.get('/', function(req, res, next) {
   if (!req.session.user) return res.redirect('/');
@@ -60,10 +61,15 @@ app.get('/teacher/course/:id', auth('Teacher'), function(req, res, next) {
   return Course.findById(req.params.id)
     .populate('assignments')
     .then(function(course) {
-      debug("fine course:", course);
+      debug("find course:", course);
+      var assignments = course.assignments.map(function (assignment) {
+        assignment.dueDateFormated = format(assignment.dueDate, 'yyyy 年 MM 月 dd 日 hh: mm');
+        assignment.deadlineFormated = format(assignment.deadline, 'yyyy 年 MM 月 dd 日 hh: mm');
+        return assignment;
+      });
       return res.render('assignment', {
         session: req.session,
-        assignments: course.assignments
+        assignments: assignments
       });
     });
 });

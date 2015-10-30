@@ -11,8 +11,8 @@ app.post('/', function(req, res, next) {
     title: req.body.title,
     course: req.body.course,
     description: req.body.description,
-    dueDate: new Date(req.body.dueDate),
-    deadline: new Date(req.body.deadline)
+    dueDate: new Date(Number(req.body.dueDate)),
+    deadline: new Date(Number(req.body.deadline))
   }).then(function(assignment) {
     // add the new assignment to course
     outer.assignment = assignment;
@@ -37,6 +37,15 @@ app.post('/', function(req, res, next) {
     debug("Add assignment to student model SUCCEED");
     return res.json({ code: 0 });
   });
+});
+
+app.delete('/', function(req, res, next) {
+  return Assignment.findByIdAndRemove(req.body.id)
+    .then(function() {
+      return res.json({ code: 0 });
+    }).catch(function(err) {
+      next(err);
+    });
 });
 
 module.exports = app;
