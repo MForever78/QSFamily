@@ -56,12 +56,14 @@ app.get('/student/course/:id', auth('Student'), function(req, res, next) {
 });
 
 app.get('/teacher/course/:id', auth('Teacher'), function(req, res, next) {
+  debug("Course id:", req.params.id);
   return Course.findById(req.params.id)
     .populate('assignments')
-    .then(function(assignments) {
+    .then(function(course) {
+      debug("fine course:", course);
       return res.render('assignment', {
         session: req.session,
-        assignments: assignments
+        assignments: course.assignments
       });
     });
 });

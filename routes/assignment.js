@@ -32,7 +32,7 @@ app.post('/', function(req, res, next) {
       }
     }, {
       multi: true
-    })
+    });
   }).then(function() {
     debug("Add assignment to student model SUCCEED");
     return res.json({ code: 0 });
