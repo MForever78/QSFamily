@@ -11,16 +11,17 @@ append content
                         a(href="#") 课件下载
                 else
                     li
-                        a(href="#") 布置作业
+                        a(href="#") 作业管理
                     li
-                        a(href="#") 课件上传
+                        a(href="#") 课件管理
         .assignment-wrap.panel-group
-            each assignment in assignments
-                .panel-heading
-                    h4.panel-title
-                        a(href="#" + assignment._id)= assignment.title
-                .panel-collapse(id=assignment._id)
-                    .panel-body= assignment.description
-                    .panel-foot
-                        .btn.btn-default 选择文件
-                        .btn.btn-primary 上传
+            if (assignments.length > 0)
+                each assignment in assignments
+                    .panel-heading
+                        h4.panel-title
+                            a(href="#" + assignment._id)= assignment.title
+                    .panel-collapse(id=assignment._id)
+                        .panel-body= assignment.description
+                        .panel-foot
+                            .btn.btn-default 选择文件
+                            .btn.btn-primary 上传
