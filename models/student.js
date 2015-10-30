@@ -27,8 +27,14 @@ var studentSchema = new Schema({
       ref: 'Assignment'
     },
     grade: Number,
-    visible: Boolean,
-    complete: Boolean,
+    visible: {
+      type: Boolean,
+      "default": false
+    },
+    complete: {
+      type: Boolean,
+      "default": false
+    },
     updateAt: Date,
     attachmentUrl: String,
     remark: String
