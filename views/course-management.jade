@@ -1,0 +1,52 @@
+extends layout/default
+
+append content
+   #workspace-wrap
+      nav.workspace-nav
+         ul
+           li
+              a(href="javascript:void(0)", data-target="assignment") 作业管理
+           li
+              a(href="javascript:void(0)", data-target="attachment") 课件管理
+           li
+              a(href="javascript:void(0)", data-target="student") 学生管理
+      #assignment-wrap
+         .panel-group
+            if (assignments.length > 0)
+               each assignment in assignments
+                  .panel
+                     .panel-heading
+                        h3.panel-title
+                           a(href="javascript:void(0)", data-action="toggle", data-target="#" + assignment._id)= assignment.title
+                     .panel-collapse(id=assignment._id)
+                        .panel-body
+                           h4 提交截止时间
+                           p= assignment.dueDateFormated
+                           h4 最后期限
+                           p= assignment.deadlineFormated
+                           h4 说明
+                           p= assignment.description
+                        .panel-foot
+                           input.btn.btn-default.btn-small(type="file")
+                           .btn.btn-primary.btn-small 上传
+      #student-wrap
+         table.table
+            thead
+               tr
+                  th 姓名
+                  th 学号
+                  th 性别
+                  th 专业
+                  th 邮箱
+                  th 手机
+                  th 操作
+            tbody
+               if (students.length > 0)
+                  each student in students
+                     tr
+                        td= student.name
+                        td= student.studentId
+                        td= student.gender
+                        td= student.department
+                        td= student.email
+                        td= student.phone
