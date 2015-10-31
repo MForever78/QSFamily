@@ -55,4 +55,14 @@ $(function() {
     $target.parents('.panel-group').find('.in').removeClass('in');
     $target.addClass('in');
   });
+
+  /*
+    Navigator
+   */
+  var location = window.location.pathname.split('/')[1];
+  // keep index as default
+  if (location) {
+    $('#nav-index').removeClass('is-active');
+    $('#nav-' + location).addClass('is-active');
+  }
 });
