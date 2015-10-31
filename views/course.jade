@@ -1,0 +1,29 @@
+extends layout/default
+
+append content
+    #workspace-wrap
+        nav.workspace-nav
+            ul
+                li
+                    a(href="javascript:void(0)", data-target="assignment") 作业上传
+                li
+                    a(href="javascript:void(0)", data-target="attachment") 课件下载
+        #assignment-wrap
+            .panel-group
+                if (assignments.length > 0)
+                    each assignment in assignments
+                        .panel
+                            .panel-heading
+                                h3.panel-title
+                                    a(href="javascript:void(0)", data-action="toggle", data-target="#" + assignment._id)= assignment.title
+                            .panel-collapse(id=assignment._id)
+                                .panel-body
+                                    h4 提交截止时间
+                                    p= assignment.dueDateFormated
+                                    h4 最后期限
+                                    p= assignment.deadlineFormated
+                                    h4 说明
+                                    p= assignment.description
+                                .panel-foot
+                                    input.btn.btn-default.btn-small(type="file")
+                                    .btn.btn-primary.btn-small 上传
