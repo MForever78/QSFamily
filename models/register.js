@@ -9,7 +9,8 @@ var registerSchema = new Schema({
   studentId: String,
   name: String,
   department: String,
-  gender: String
+  gender: String,
+  course: Schema.Types.ObjectId
 });
 
 var Register = mongoose.model('Register', registerSchema);
