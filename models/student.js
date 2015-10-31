@@ -16,6 +16,7 @@ var studentSchema = new Schema({
   email: String,
   qq: String,
   gender: String,
+  department: String,
 
   courseTaking: [{
     type: Schema.Types.ObjectId,
