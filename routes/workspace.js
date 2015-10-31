@@ -33,9 +33,9 @@ app.get('/', function(req, res, next) {
       // Assistants can see all the courses they are managing
       return Assistant.findById(req.session.user._id)
         .populate('courseAssisting')
-        .then(function(courseList) {
+        .then(function(assistant) {
           return res.render('workspace', {
-            courseList: courseList,
+            courseList: assistant.courseAssisting,
             session: req.session
           });
         });
@@ -49,7 +49,7 @@ app.get('/student/course/:id', auth('Student'), function(req, res, next) {
       var assignments = user.assignments.filter(function(assignment) {
         return assignment.course === req.params.id;
       });
-      return res.render('assignment', {
+      return res.render('course', {
         session: req.session,
         assignments: assignments
       });
@@ -59,17 +59,18 @@ app.get('/student/course/:id', auth('Student'), function(req, res, next) {
 app.get('/teacher/course/:id', auth('Teacher'), function(req, res, next) {
   debug("Course id:", req.params.id);
   return Course.findById(req.params.id)
-    .populate('assignments')
+    .populate('assignments attendee')
     .then(function(course) {
-      debug("find course:", course);
+      debug("Found course:", course.name);
       var assignments = course.assignments.map(function (assignment) {
         assignment.dueDateFormated = format(assignment.dueDate, 'yyyy 年 MM 月 dd 日 hh: mm');
         assignment.deadlineFormated = format(assignment.deadline, 'yyyy 年 MM 月 dd 日 hh: mm');
         return assignment;
       });
-      return res.render('assignment', {
+      return res.render('course-management', {
         session: req.session,
-        assignments: assignments
+        assignments: assignments,
+        students: course.attendee
       });
     });
 });
