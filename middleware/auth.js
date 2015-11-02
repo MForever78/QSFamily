@@ -10,7 +10,7 @@ module.exports = function(roles) {
   }
   return function(req, res, next) {
     if (!(req.session.user && roles.indexOf(req.session.user.role) !== -1)) {
-      res.session = null;
+      if (req.session) req.session.destroy();
       return res.redirect('/');
     }
     next();
