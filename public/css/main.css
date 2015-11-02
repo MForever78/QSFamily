@@ -272,6 +272,13 @@ article {
 .btn.btn-primary:hover {
   background-color: #66c17b;
 }
+.btn.btn-error {
+  color: #fff;
+  background: #db2828;
+}
+.btn.btn-error:hover {
+  background: #d01919;
+}
 .btn-small {
   padding: .5em 1em;
 }
@@ -384,6 +391,14 @@ article {
   background: #f9fafb;
   padding: 1em .7em;
   font-weight: bold;
+  border-bottom: 1px solid rgba(34, 36, 38, 0.1);
+}
+.table tbody tr:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: rgba(0, 0, 0, 0.95);
+}
+.table tbody td {
+  padding: .7em;
 }
 .table tr th,
 .table tr td {
@@ -398,6 +413,10 @@ article {
 }
 .table tr:first-child > th:last-child {
   border-radius: 0 3px 0 0;
+}
+/* helper */
+.negative {
+  color: #9F3A38;
 }
 .is-hidden {
   display: none;
