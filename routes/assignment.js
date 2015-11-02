@@ -11,8 +11,8 @@ app.post('/', function(req, res, next) {
     title: req.body.title,
     course: req.body.course,
     description: req.body.description,
-    dueDate: new Date(Number(req.body.dueDate)),
-    deadline: new Date(Number(req.body.deadline))
+    dueDate: new Date(req.body.dueDate),
+    deadline: new Date(req.body.deadline)
   }).then(function(assignment) {
     // add the new assignment to course
     outer.assignment = assignment;
