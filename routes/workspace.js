@@ -70,9 +70,25 @@ app.get('/teacher/course/:id', auth('Teacher'), function(req, res, next) {
       return res.render('course-management', {
         session: req.session,
         assignments: assignments,
-        students: course.attendee
+        students: course.attendee,
+        course: course
       });
     });
 });
+
+app.post('/teacher/course/add_student', auth("Teacher"), function(req, res, next) {
+  // update student to include that course
+  return Student.findOneAndUpdate({ studentId: req.body.student }, {
+    $push: { courseTaking: req.body.course }
+  }).then(function(student) {
+    // update course to include that student
+    return Course.findByIdAndUpdate(req.body.course, {
+      $push: { attendee: student._id }
+    });
+  }).then(function() {
+    return res.json({code: 0});
+  });
+});
+
 
 module.exports = app;
