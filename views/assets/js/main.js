@@ -49,12 +49,12 @@ $(function() {
   /*
     Assignment
    */
-  $('a[data-action=toggle]').on('click', function(e) {
+  $('#assignment-wrap').find('a[data-action=toggle]').on('click', function(e) {
     e.preventDefault();
     var $target = $(this.dataset.target);
     $target.parents('.panel-group').find('.in').removeClass('in');
     $target.addClass('in');
-  });
+  }).first().click();
 
   /*
     Navigator
@@ -69,17 +69,33 @@ $(function() {
   /*
     Course management
    */
+  var courseId = $('#workspace-wrap')[0].dataset.courseId;
   $('.workspace-nav').on('click', function(e) {
     e.preventDefault();
     $('#workspace-wrap').children('.is-active').removeClass('is-active');
     $('#' + e.target.dataset.target + '-wrap').addClass('is-active');
   }).find('a').first().click();
 
-  $('#student-wrap .btn').on('click', function(e) {
-    var action = e.target.dataset.action;
-    if (action === "add") {
-      $(this).parent().children('.form').removeClass('is-hidden');
-    }
+  var studentWrap = $('#student-wrap');
+
+  studentWrap.find('.btn[data-action=add]').on('click', function() {
+    $(this).parent().children('.form').toggleClass('is-hidden');
+  });
+
+  studentWrap.find('a[data-action=delete]').on('click', function() {
+    $.ajax('student', {
+      method: 'DELETE',
+      //dataType: 'json',
+      //contentType: 'application/json',
+      data: {
+        course: courseId,
+        student: this.dataset.target
+      },
+      success: function(data) {
+        console.log(data);
+        location.reload();
+      }
+    });
   });
 
 });

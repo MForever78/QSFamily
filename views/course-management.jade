@@ -1,7 +1,7 @@
 extends layout/default
 
 append content
-   #workspace-wrap
+   #workspace-wrap(data-course-id="" + course._id)
       nav.workspace-nav
          ul
            li
@@ -29,7 +29,7 @@ append content
                         .panel-foot
                            .btn.btn-primary.btn-small 批改作业
       #student-wrap
-         form(action="add_student", method="POST")
+         form(action="student", method="POST")
              .btn.btn-primary(data-action="add") 增加学生
              .form.form-bordered.is-hidden
                  .input-group
@@ -58,3 +58,5 @@ append content
                         td= student.department
                         td= student.email
                         td= student.phone
+                        td
+                            a.negative(href="javascript:void(0)", data-action="delete", data-target="" + student._id) 删除
