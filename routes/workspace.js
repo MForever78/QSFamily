@@ -46,8 +46,16 @@ app.get('/student/course/:id', auth('Student'), function(req, res, next) {
   return Student.findById(req.session.user._id)
     .populate('assignments.reference')
     .then(function(user) {
+      debug(user);
       var assignments = user.assignments.filter(function(assignment) {
-        return assignment.course === req.params.id;
+        debug("Assignment:", assignment);
+        debug("params:", req.params.id);
+        if (!assignment.reference) return false;
+        return assignment.reference.course == req.params.id;
+      }).map(function(assignment) {
+        assignment.reference.dueDateFormated = format(assignment.reference.dueDate, 'yyyy 年 MM 月 dd 日 hh: mm');
+        assignment.reference.deadlineFormated = format(assignment.reference.deadline, 'yyyy 年 MM 月 dd 日 hh: mm');
+        return assignment;
       });
       return res.render('course', {
         session: req.session,
@@ -76,19 +84,70 @@ app.get('/teacher/course/:id', auth('Teacher'), function(req, res, next) {
     });
 });
 
-app.post('/teacher/course/add_student', auth("Teacher"), function(req, res, next) {
-  // update student to include that course
-  return Student.findOneAndUpdate({ studentId: req.body.student }, {
-    $push: { courseTaking: req.body.course }
-  }).then(function(student) {
-    // update course to include that student
-    return Course.findByIdAndUpdate(req.body.course, {
-      $push: { attendee: student._id }
+app.post('/teacher/course/student', auth("Teacher"), function(req, res, next) {
+  // update student to include that course and its assignments
+  var getStudent = Student.findOne({ studentId: req.body.student });
+  var getCourse = Course.findById(req.body.course);
+  return Promise.all([getStudent, getCourse])
+    .then(function(result) {
+      var student = result[0];
+      var course = result[1];
+      var cookedAssignments = course.assignments.map(function(assignment) {
+        var cookedAssignment = {};
+        cookedAssignment.reference = assignment;
+        return cookedAssignment;
+      });
+      var addCourseAndAssignment = student.update({
+        $push: {
+          courseTaking: course._id,
+          assignments: {
+            $each: cookedAssignments
+          }
+        }
+      });
+      var addStudent = course.update({
+        $push: { attendee: student._id }
+      });
+      return Promise.all([addCourseAndAssignment, addStudent]);
+    }).then(function() {
+      return res.json({code: 0});
+    }).catch(function(err) {
+      next(err);
     });
-  }).then(function() {
-    return res.json({code: 0});
-  });
 });
 
+app.delete('/teacher/course/student', auth("Teacher"), function(req, res, next) {
+  debug(req.body);
+  var getStudent = Student.findById(req.body.student);
+  var getCourse = Course.findById(req.body.course);
+  debug('Query built, ready to exec');
+  return Promise.all([getStudent, getCourse])
+    .then(function(result) {
+      debug('Query exec first step SUCCEED');
+      var student = result[0];
+      var course = result[1];
+      var cookedAssignments = course.assignments.map(function(assignment) {
+        var cookedAssignment = {};
+        cookedAssignment.reference = assignment;
+        return cookedAssignment;
+      });
+      var delCourseAndAssignment = student.update({
+        $pop: {
+          courseTaking: course._id,
+          assignments: {
+            $each: cookedAssignments
+          }
+        }
+      });
+      var delStudent = course.update({
+        $pop: { attendee: student._id }
+      });
+      return Promise.all([delCourseAndAssignment, delStudent]);
+    }).then(function() {
+      return res.json({code: 0});
+    }).catch(function(err) {
+      next(err);
+    });
+});
 
 module.exports = app;
