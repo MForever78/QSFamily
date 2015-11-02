@@ -105,6 +105,13 @@
   Form
 */
 
+.form-bordered {
+  margin-top: 10px;
+  padding: 10px;
+  border: solid 1px #ddd;
+  border-radius: 3px;
+}
+
 .input-group {
   display: block;
   margin-bottom: .5em;
@@ -272,4 +279,40 @@
   .btn {
     margin-left: 10px;
   }
+}
+
+/* table */
+.table {
+  border: 1px solid rgba(34,36,38,.15);
+  color: rgba(0,0,0,.87);
+  text-align: left;
+  border-radius: 3px;
+  border-collapse: separate;
+  margin: 1em 0;
+
+  thead th {
+    background: #f9fafb;
+    padding: 1em .7em;
+    font-weight: bold;
+  }
+
+  tr {
+    th, td {
+      border-left: 1px solid rgba(34,36,38,.1);
+    }
+
+    th:first-child, td:first-child {
+      border-left: none;
+    }
+
+    &:first-child {
+      & > th:first-child {
+        border-radius: 3px 0 0;
+      }
+      & > th:last-child {
+        border-radius: 0 3px 0 0;
+      }
+    }
+  }
+
 }

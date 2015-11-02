@@ -27,9 +27,17 @@ append content
                            h4 说明
                            p= assignment.description
                         .panel-foot
-                           input.btn.btn-default.btn-small(type="file")
-                           .btn.btn-primary.btn-small 上传
+                           .btn.btn-primary.btn-small 批改作业
       #student-wrap
+         form(action="add_student", method="POST")
+             .btn.btn-primary(data-action="add") 增加学生
+             .form.form-bordered.is-hidden
+                 .input-group
+                     label(for="#studentId") 学号
+                     input(type="text", name="student")
+                     input.is-hidden(type="text", name="course", value=course._id)
+                 .input-group
+                     button.btn.btn-primary(type="submit") 提交
          table.table
             thead
                tr

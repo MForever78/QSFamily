@@ -65,4 +65,21 @@ $(function() {
     $('#nav-index').removeClass('is-active');
     $('#nav-' + location).addClass('is-active');
   }
+
+  /*
+    Course management
+   */
+  $('.workspace-nav').on('click', function(e) {
+    e.preventDefault();
+    $('#workspace-wrap').children('.is-active').removeClass('is-active');
+    $('#' + e.target.dataset.target + '-wrap').addClass('is-active');
+  }).find('a').first().click();
+
+  $('#student-wrap .btn').on('click', function(e) {
+    var action = e.target.dataset.action;
+    if (action === "add") {
+      $(this).parent().children('.form').removeClass('is-hidden');
+    }
+  });
+
 });
