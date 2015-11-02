@@ -32,10 +32,12 @@ var assignmentSchema = new Schema({
 });
 
 // delete cascade to Student
-assignmentSchema.pre('remove', function() {
+assignmentSchema.pre('remove', function(next) {
   Student.update({ "assignments.reference": this._id }, {
     $pop: { "assignments.reference": this._id }
-  }).exec();
+  }).then(function() {
+    next();
+  });
 });
 
 assignmentSchema.pre('update', function() {

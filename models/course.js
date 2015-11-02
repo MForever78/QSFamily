@@ -38,15 +38,19 @@ var courseSchema = new Schema({
 });
 
 // delete cascade to Assignment, Student, Assistant and AttachmentCategory
-courseSchema.pre('remove', function() {
-  Assignment.remove({ course: this._id }).exec();
-  Student.update({ courseTaking: this._id }, {
+courseSchema.pre('remove', function(next) {
+  var delAssignments = Assignment.remove({ course: this._id });
+  var popFromStudent = Student.update({ courseTaking: this._id }, {
     $pop: { courseTaking: this._id }
-  }).exec();
-  Assistant.update({ courseAssisting: this._id }, {
+  });
+  var popFromAssistant = Assistant.update({ courseAssisting: this._id }, {
     $pop: { courseAssisting: this._id }
-  }).exec();
-  AttachmentCategory.remove({ course: this._id }).exec();
+  });
+  var delAttachmentCate = AttachmentCategory.remove({ course: this._id });
+  Promise.all([delAssignments, popFromStudent, popFromAssistant, delAttachmentCate])
+    .then(function() {
+      next();
+    });
 });
 
 courseSchema.pre('update', function() {

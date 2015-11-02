@@ -31,8 +31,10 @@ var newsSchema = new Schema({
 });
 
 // cascade delete to Comment
-newsSchema.pre('remove', function() {
-  Comment.remove({ news: this_id }).exec();
+newsSchema.pre('remove', function(next) {
+  Comment.remove({ news: this_id }).then(function() {
+    next();
+  });
 });
 
 newsSchema.pre('update', function() {
