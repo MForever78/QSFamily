@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "DEBUG=QSFamily:* supervisor app.js",
+    "dev": "DEBUG=QSFamily:* supervisor -i views,public app.js",
     "debug": "DEBUG=* node app.js"
   },
   "repository": {
