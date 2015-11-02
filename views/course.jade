@@ -15,15 +15,15 @@ append content
                         .panel
                             .panel-heading
                                 h3.panel-title
-                                    a(href="javascript:void(0)", data-action="toggle", data-target="#" + assignment._id)= assignment.title
-                            .panel-collapse(id=assignment._id)
+                                    a(href="javascript:void(0)", data-action="toggle", data-target="#" + assignment.reference._id)= assignment.reference.title
+                            .panel-collapse(id=assignment.reference._id)
                                 .panel-body
                                     h4 提交截止时间
-                                    p= assignment.dueDateFormated
+                                    p= assignment.reference.dueDateFormated
                                     h4 最后期限
-                                    p= assignment.deadlineFormated
+                                    p= assignment.reference.deadlineFormated
                                     h4 说明
-                                    p= assignment.description
+                                    p= assignment.reference.description
                                 .panel-foot
                                     input.btn.btn-default.btn-small(type="file")
                                     .btn.btn-primary.btn-small 上传
