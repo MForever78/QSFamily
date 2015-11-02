@@ -49,12 +49,30 @@ $(function() {
   /*
     Assignment
    */
-  $('#assignment-wrap').find('a[data-action=toggle]').on('click', function(e) {
+  var assignmentWrap = $('#assignment-wrap');
+  assignmentWrap.find('a[data-action=toggle]').on('click', function(e) {
     e.preventDefault();
     var $target = $(this.dataset.target);
     $target.parents('.panel-group').find('.in').removeClass('in');
     $target.addClass('in');
   }).first().click();
+
+  assignmentWrap.find('.btn[data-action=add]').on('click', function() {
+    $(this).parent().children('.form').toggleClass('is-hidden');
+  });
+
+  assignmentWrap.find('.btn[data-action=delete]').on('click', function() {
+    $.ajax('assignment', {
+      method: 'DELETE',
+      data: {
+        assignment: this.dataset.target
+      },
+      success: function(data) {
+        console.log(data);
+        location.reload();
+      }
+    });
+  });
 
   /*
     Navigator
@@ -85,8 +103,6 @@ $(function() {
   studentWrap.find('a[data-action=delete]').on('click', function() {
     $.ajax('student', {
       method: 'DELETE',
-      //dataType: 'json',
-      //contentType: 'application/json',
       data: {
         course: courseId,
         student: this.dataset.target

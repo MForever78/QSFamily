@@ -11,7 +11,22 @@ append content
            li
               a(href="javascript:void(0)", data-target="student") 学生管理
       #assignment-wrap
-         .panel-group
+          form(action="/assignment", method="POST")
+              .btn.btn-primary(data-action="add") 新增作业
+              .form.form-bordered.is-hidden
+                  .input-group
+                      label(for="title") 标题
+                      input(type="text", name="title")
+                      label(for="#description") 描述
+                      input(type="text", name="description")
+                      label(for="#duedate") 截止时间
+                      input(type="date", name="dueDate")
+                      label(for="#deadline") 最后期限
+                      input(type="date", name="deadline")
+                      input.is-hidden(type="text", name="course", value=course._id)
+                  .input-group
+                      button.btn.btn-primary(type="submit") 提交
+          .panel-group
             if (assignments.length > 0)
                each assignment in assignments
                   .panel
@@ -27,7 +42,8 @@ append content
                            h4 说明
                            p= assignment.description
                         .panel-foot
-                           .btn.btn-primary.btn-small 批改作业
+                            .btn.btn-error.btn-small(data-action="delete", data-target="" + assignment._id) 删除作业
+                            .btn.btn-primary.btn-small(data-action="correct", data-target="" + assignment._id) 批改作业
       #student-wrap
          form(action="student", method="POST")
              .btn.btn-primary(data-action="add") 增加学生
