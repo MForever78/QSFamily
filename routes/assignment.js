@@ -5,9 +5,15 @@
 var app = require('express')();
 var debug = require('debug')('QSFamily:route:assignment');
 var auth = require('../middleware/auth');
+var mkdirp = require('mkdirp');
 var multer = require('multer');
+
 var storage = multer.diskStorage({
-  destination: __dirname + '/../../upload/assignments',
+  destination: function(req, file, callback) {
+    var dest = __dirname + '/../../upload/assignments/' + req.body.assignment;
+    mkdirp.sync(dest);
+    callback(null, dest);
+  },
   filename: function(req, file, callback) {
     Student.findById(req.session.user._id)
       .then(function(student) {
@@ -15,7 +21,7 @@ var storage = multer.diskStorage({
         var filename = [student.studentId, student.name, req.body.title].join('_');
         filename += '.' + ext;
         callback(null, filename);
-      })
+      });
   }
 });
 var upload = multer({ storage: storage });
@@ -85,6 +91,7 @@ app.post('/upload', auth("Student"), upload.single('file'), function(req, res, n
       student.assignments = student.assignments.map(function(assignment) {
         if (assignment._id == req.body.assignment) {
           assignment.complete = true;
+          assignment.attachmentUrl = req.file.filename;
         }
         return assignment;
       });
