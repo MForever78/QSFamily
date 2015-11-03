@@ -44,17 +44,45 @@ app.post('/', function(req, res, next) {
           debug('Create assistant:', assistant.username);
           return res.json({code: 0});
         });
-    case "Student":
-      user.studentId = req.body.studentId;
-      return Student.create(user)
-        .then(function(student) {
-          debug('Create student:', student.username);
-          return res.json({code: 0});
-        }).onReject(function(err) {
-          next(err);
-        });
     default: return res.json({code: -1, message: "Invalid user role"});
   }
+});
+
+app.post('/', function(req, res, next) {
+  var salt = crypto.randomBytes(64).toString('base64');
+  debug("New student:");
+  debug("Username:", req.body.username);
+  var outer = {};
+  return Register.findOne({
+    $and: [
+      {studentId: req.body.studentId},
+      {name: req.body.name}
+    ]
+  }).then(function(student) {
+    if (!student) {
+      return res.render('register', { error: true });
+    }
+    var user = {
+      username: req.body.username,
+      salt: salt,
+      password: cookPassword(req.body.password, salt),
+      studentId: student.studentId,
+      name: student.name,
+      gender: student.gender,
+      department: student.department
+    };
+    outer.student = student;
+    return Student.create(user);
+  }).then(function() {
+    return outer.student.remove();
+  }).then(function() {
+    return res.render('login', {
+      message: {
+        type: 'success',
+        message: '注册成功, 请登陆'
+      }
+    });
+  });
 });
 
 app.post('/sheet', auth("Teacher"), upload.single('file'), function(req, res, next) {
