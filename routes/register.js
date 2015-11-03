@@ -10,6 +10,7 @@ var auth = require('../middleware/auth');
 var multer = require('multer');
 var storage = multer.memoryStorage();
 var upload = multer({ storage: storage });
+var XLSX = require('xlsx');
 
 function cookPassword(key, salt) {
   var hash = crypto.createHash('sha512');
@@ -58,9 +59,27 @@ app.post('/', function(req, res, next) {
 
 app.post('/sheet', auth("Teacher"), upload.single('file'), function(req, res, next) {
   debug(req.file.buffer);
-  var xls = req.file.buffer;
-
-  return res.json({ code: 0 });
+  var workbook = XLSX.read(req.file.buffer);
+  // get the first work sheet
+  var worksheet = workbook.Sheets[workbook.SheetNames[0]];
+  // !ref example: A1:P42, we only want the 42 as a number
+  var range = worksheet['!ref'].split(':')[1].replace(/\D/g, "");
+  range = Number(range);
+  var students = [];
+  for (var row = 5; row <= range; row++) {
+    var student = {};
+    student.studentId = worksheet['B' + row].v;
+    // filter the strange "'" character
+    student.name = worksheet['D' + row].v.replace("'", '');
+    student.gender = worksheet['E' + row].v;
+    student.department = worksheet['F' + row].v;
+    student.course = req.body.course;
+    students.push(student);
+  }
+  debug(students);
+  return Register.create(students).then(function() {
+    return res.json({ code: 0 });
+  });
 });
 
 module.exports = app;
