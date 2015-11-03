@@ -4,6 +4,7 @@
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var debug = require('debug')('QSFamily:model:assignment');
 
 var assignmentSchema = new Schema({
   course: {
@@ -29,15 +30,6 @@ var assignmentSchema = new Schema({
     "default": new Date()
   },
   updateAt: Date
-});
-
-// delete cascade to Student
-assignmentSchema.pre('remove', function(next) {
-  Student.update({ "assignments.reference": this._id }, {
-    $pop: { "assignments.reference": this._id }
-  }).then(function() {
-    next();
-  });
 });
 
 assignmentSchema.pre('update', function() {

@@ -30,13 +30,6 @@ var newsSchema = new Schema({
   updateAt: Date
 });
 
-// cascade delete to Comment
-newsSchema.pre('remove', function(next) {
-  Comment.remove({ news: this_id }).then(function() {
-    next();
-  });
-});
-
 newsSchema.pre('update', function() {
   this.update({}, {$set: {updateAt: new Date()}});
 });
