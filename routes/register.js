@@ -6,6 +6,10 @@ var app = require('express')();
 var debug = require('debug')('QSFamily:route:register');
 var crypto = require('crypto');
 var saltPos = require('config').get('saltPos');
+var auth = require('../middleware/auth');
+var multer = require('multer');
+var storage = multer.memoryStorage();
+var upload = multer({ storage: storage });
 
 function cookPassword(key, salt) {
   var hash = crypto.createHash('sha512');
@@ -50,6 +54,13 @@ app.post('/', function(req, res, next) {
         });
     default: return res.json({code: -1, message: "Invalid user role"});
   }
+});
+
+app.post('/sheet', auth("Teacher"), upload.single('file'), function(req, res, next) {
+  debug(req.file.buffer);
+  var xls = req.file.buffer;
+
+  return res.json({ code: 0 });
 });
 
 module.exports = app;
