@@ -45,8 +45,9 @@ append content
                             .btn.btn-error.btn-small(data-action="delete", data-target="" + assignment._id) 删除作业
                             .btn.btn-primary.btn-small(data-action="correct", data-target="" + assignment._id) 批改作业
       #student-wrap
-         form(action="student", method="POST")
-             .btn.btn-primary(data-action="add") 增加学生
+          .student-manage-item.btn.btn-primary(data-action="add") 增加学生
+          .student-manage-item.btn.btn-primary(data-action="bulk") 批量添加
+          form#add-form(action="student", method="POST")
              .form.form-bordered.is-hidden
                  .input-group
                      label(for="#studentId") 学号
@@ -54,7 +55,12 @@ append content
                      input.is-hidden(type="text", name="course", value=course._id)
                  .input-group
                      button.btn.btn-primary(type="submit") 提交
-         table.table
+          form#bulk-form(action="/register/sheet", method="POST", enctype="multipart/form-data")
+              .form.form-bordered.is-hidden
+                  .input-group
+                      input.btn.btn-default.btn-small(type="file", name="file")
+                      button.btn.btn-primary.btn-small(type="submit") 上传
+          table.table
             thead
                tr
                   th 姓名

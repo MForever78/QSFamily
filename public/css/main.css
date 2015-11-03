@@ -264,6 +264,7 @@ article {
   border: none;
   background-color: #e0e0e0;
   color: rgba(0, 0, 0, 0.6);
+  margin-right: 10px;
 }
 .btn.btn-primary {
   color: #fff;
@@ -395,6 +396,10 @@ article {
 }
 .panel-foot .btn {
   margin-left: 10px;
+}
+/* student manage */
+.student-manage-item {
+  margin-right: 5px;
 }
 /* table */
 .table {

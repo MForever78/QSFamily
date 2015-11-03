@@ -97,7 +97,11 @@ $(function() {
   var studentWrap = $('#student-wrap');
 
   studentWrap.find('.btn[data-action=add]').on('click', function() {
-    $(this).parent().children('.form').toggleClass('is-hidden');
+    $('#add-form').children('.form').toggleClass('is-hidden');
+  });
+
+  studentWrap.find('.btn[data-action=bulk]').on('click', function() {
+    $('#bulk-form').children('.form').toggleClass('is-hidden');
   });
 
   studentWrap.find('a[data-action=delete]').on('click', function() {
