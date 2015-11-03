@@ -5,7 +5,7 @@
 var app = require('express')();
 var debug = require('debug')('QSFamily:route:workspace');
 var auth = require('../middleware/auth');
-var format = require('../utils/dateFormat');
+var Moment = require('moment');
 
 app.get('/', function(req, res, next) {
   if (!req.session.user) return res.redirect('/');
@@ -53,8 +53,8 @@ app.get('/student/course/:id', auth('Student'), function(req, res, next) {
         if (!assignment.reference) return false;
         return assignment.reference.course == req.params.id;
       }).map(function(assignment) {
-        assignment.reference.dueDateFormated = format(assignment.reference.dueDate, 'yyyy 年 MM 月 dd 日 hh: mm');
-        assignment.reference.deadlineFormated = format(assignment.reference.deadline, 'yyyy 年 MM 月 dd 日 hh: mm');
+        assignment.reference.dueDateFormated = Moment(assignment.reference.dueDate).format('YYYY 年 MM 月 DD 日 hh: mm');
+        assignment.reference.deadlineFormated = Moment(assignment.reference.deadline).format('YYYY 年 MM 月 DD 日 hh: mm');
         return assignment;
       });
       return res.render('course', {
@@ -71,8 +71,9 @@ app.get('/teacher/course/:id', auth('Teacher'), function(req, res, next) {
     .then(function(course) {
       debug("Found course:", course.name);
       var assignments = course.assignments.map(function (assignment) {
-        assignment.dueDateFormated = format(assignment.dueDate, 'yyyy 年 MM 月 dd 日 hh: mm');
-        assignment.deadlineFormated = format(assignment.deadline, 'yyyy 年 MM 月 dd 日 hh: mm');
+        debug(assignment);
+        assignment.dueDateFormated = Moment(assignment.dueDate).format('YYYY 年 MM 月 DD 日 hh: mm');
+        assignment.deadlineFormated = Moment(assignment.deadline).format('YYYY 年 MM 月 DD 日 hh: mm');
         return assignment;
       });
       return res.render('course-management', {
