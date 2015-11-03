@@ -58,6 +58,7 @@ append content
           form#bulk-form(action="/register/sheet", method="POST", enctype="multipart/form-data")
               .form.form-bordered.is-hidden
                   .input-group
+                      input.is-hidden(type="text", name="course", value=course._id)
                       input.btn.btn-default.btn-small(type="file", name="file")
                       button.btn.btn-primary.btn-small(type="submit") 上传
           table.table
@@ -82,3 +83,13 @@ append content
                         td= student.phone
                         td
                             a.negative(href="javascript:void(0)", data-action="delete", data-target="" + student._id) 删除
+               if (register.length > 0)
+                   each student in register
+                       tr
+                           td= student.name
+                           td= student.studentId
+                           td= student.gender
+                           td= student.department
+                           td
+                           td
+                           td

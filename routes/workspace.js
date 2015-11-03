@@ -66,9 +66,12 @@ app.get('/student/course/:id', auth('Student'), function(req, res, next) {
 
 app.get('/teacher/course/:id', auth('Teacher'), function(req, res, next) {
   debug("Course id:", req.params.id);
-  return Course.findById(req.params.id)
-    .populate('assignments attendee')
-    .then(function(course) {
+  var getFromRegister = Register.find({ course: req.params.id });
+  var getCourse = Course.findById(req.params.id).populate('assignments attendee');
+  return Promise.all([getFromRegister, getCourse])
+    .then(function(result) {
+      var register = result[0];
+      var course = result[1];
       debug("Found course:", course.name);
       var assignments = course.assignments.map(function (assignment) {
         debug(assignment);
@@ -80,7 +83,8 @@ app.get('/teacher/course/:id', auth('Teacher'), function(req, res, next) {
         session: req.session,
         assignments: assignments,
         students: course.attendee,
-        course: course
+        course: course,
+        register: register
       });
     });
 });
