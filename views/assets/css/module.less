@@ -237,7 +237,26 @@
 }
 
 /* assignment */
+
+.assignment-status {
+  float: right;
+
+  &.warn {
+    color: #f27113;
+  }
+
+  &.error {
+    color: #d82828;
+  }
+
+  &.success {
+    color: #21ba45;
+  }
+}
+
 .panel-group {
+  margin-top: 10px;
+
   h3, h4, p {
     margin: 0;
     font-size: 1em;
@@ -266,6 +285,10 @@
 
 .panel-heading:first-child {
   margin-top: 0;
+}
+
+.panel-title {
+  display: inline-block;
 }
 
 .panel-collapse {

@@ -334,6 +334,21 @@ article {
   display: inline-block;
 }
 /* assignment */
+.assignment-status {
+  float: right;
+}
+.assignment-status.warn {
+  color: #f27113;
+}
+.assignment-status.error {
+  color: #d82828;
+}
+.assignment-status.success {
+  color: #21ba45;
+}
+.panel-group {
+  margin-top: 10px;
+}
 .panel-group h3,
 .panel-group h4,
 .panel-group p {
@@ -359,6 +374,9 @@ article {
 }
 .panel-heading:first-child {
   margin-top: 0;
+}
+.panel-title {
+  display: inline-block;
 }
 .panel-collapse {
   display: none;

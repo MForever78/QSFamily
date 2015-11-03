@@ -16,6 +16,10 @@ append content
                             .panel-heading
                                 h3.panel-title
                                     a(href="javascript:void(0)", data-action="toggle", data-target="#" + assignment.reference._id)= assignment.reference.title
+                                if (assignment.complete)
+                                    .assignment-status.success 已提交
+                                else
+                                    .assignment-status.warn 未提交
                             .panel-collapse(id=assignment.reference._id)
                                 .panel-body
                                     h4 提交截止时间
@@ -25,5 +29,8 @@ append content
                                     h4 说明
                                     p= assignment.reference.description
                                 .panel-foot
-                                    input.btn.btn-default.btn-small(type="file")
-                                    .btn.btn-primary.btn-small 上传
+                                    form(action="/assignment/upload", method="POST", enctype="multipart/form-data")
+                                        input.btn.btn-default.btn-small(type="file", name="file")
+                                        input.is-hidden(type="text", name="assignment", value="" + assignment._id)
+                                        input.is-hidden(type="text", name="title", value="" + assignment.reference.title)
+                                        button.btn.btn-primary.btn-small(type="submit") 上传
