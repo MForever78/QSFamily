@@ -136,21 +136,18 @@ app.delete('/teacher/course/student', auth("Teacher"), function(req, res, next) 
       debug('Query exec first step SUCCEED');
       var student = result[0];
       var course = result[1];
-      var cookedAssignments = course.assignments.map(function(assignment) {
-        var cookedAssignment = {};
-        cookedAssignment.reference = assignment;
-        return cookedAssignment;
-      });
+      var assignments = course.assignments;
+      debug(assignments);
       var delCourseAndAssignment = student.update({
-        $pop: {
+        $pull: {
           courseTaking: course._id,
           assignments: {
-            $each: cookedAssignments
+            reference: { $in: assignments }
           }
         }
       });
       var delStudent = course.update({
-        $pop: { attendee: student._id }
+        $pull: { attendee: student._id }
       });
       return Promise.all([delCourseAndAssignment, delStudent]);
     }).then(function() {
