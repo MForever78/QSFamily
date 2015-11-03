@@ -11,6 +11,8 @@ header#header
             if (!session.user)
                 li#nav-login
                     a(href="/login") 登入
+                li#nav-register
+                    a(href="/register") 注册
             else
                 if (session.user.role === 'Teacher')
                     li#nav-write
