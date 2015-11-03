@@ -70,6 +70,7 @@ append content
                   th 专业
                   th 邮箱
                   th 手机
+                  th 状态
                   th 操作
             tbody
                if (students.length > 0)
@@ -81,6 +82,7 @@ append content
                         td= student.department
                         td= student.email
                         td= student.phone
+                        td 已注册
                         td
                             a.negative(href="javascript:void(0)", data-action="delete", data-target="" + student._id) 删除
                if (register.length > 0)
@@ -92,4 +94,5 @@ append content
                            td= student.department
                            td
                            td
+                           td 未注册
                            td
