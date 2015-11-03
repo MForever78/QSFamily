@@ -55,11 +55,25 @@ app.post('/', function(req, res, next) {
 });
 
 app.delete('/', function(req, res, next) {
-  return Assignment.findByIdAndRemove(req.body.id)
-    .then(function() {
+  // delete assignment from Student, Course and finally Assignment
+  var outer = {};
+  return Assignment.findById(req.body.id)
+    .then(function(assignment) {
+      outer.assignment = assignment;
+      return Course.findById(assignment.course);
+    }).then(function(course) {
+      outer.course = course;
+      // delete from students
+      var delFromStudent = Student.update({ _id: { $in: course.attendee }}, {
+        $pull: {
+          assignments: { reference: req.body.id }
+        }
+      });
+      var delFromCourse = course.update({ $pull: { assignments: req.body.id }});
+      var delAssignment = outer.assignment.remove();
+      return Promise.all([delFromStudent, delFromCourse, delAssignment]);
+    }).then(function() {
       return res.json({ code: 0 });
-    }).catch(function(err) {
-      next(err);
     });
 });
 

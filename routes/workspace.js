@@ -85,15 +85,6 @@ app.get('/teacher/course/:id', auth('Teacher'), function(req, res, next) {
     });
 });
 
-app.delete('/teacher/course/assignment', auth("Teacher"), function(req, res, next) {
-  return Assignment.findByIdAndRemove(req.body.assignment)
-    .then(function() {
-      return res.json({code: 0});
-    }).catch(function(err) {
-      next(err);
-    });
-});
-
 app.post('/teacher/course/student', auth("Teacher"), function(req, res, next) {
   // update student to include that course and its assignments
   var getStudent = Student.findOne({ studentId: req.body.student });
