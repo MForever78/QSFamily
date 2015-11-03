@@ -62,10 +62,10 @@ $(function() {
   });
 
   assignmentWrap.find('.btn[data-action=delete]').on('click', function() {
-    $.ajax('assignment', {
+    $.ajax('/assignment', {
       method: 'DELETE',
       data: {
-        assignment: this.dataset.target
+        id: this.dataset.target
       },
       success: function(data) {
         console.log(data);
