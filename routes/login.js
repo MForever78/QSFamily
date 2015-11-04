@@ -30,7 +30,12 @@ app.post('/', function(req, res, next) {
     .then(function(user) {
       if (!user) {
         debug("Username doesn't exist");
-        return res.render('login', {error: true});
+        return res.render('login', {
+          message: {
+            type: 'error',
+            text: '用户名或密码错误'
+          }
+        });
       }
       debug("Found username:", user.username);
       if (authenticate(user, req.body.password)) {
@@ -44,6 +49,13 @@ app.post('/', function(req, res, next) {
           role: user.role
         };
         res.redirect('/workspace');
+      } else {
+        return res.render('login', {
+          message: {
+            type: 'error',
+            text: '用户名或密码错误'
+          }
+        });
       }
     });
 });
