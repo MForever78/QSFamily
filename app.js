@@ -9,6 +9,7 @@ var config = require('config');
 var morgan = require('morgan');
 var port = process.env.PORT || 3000;
 var mongoose = require('mongoose');
+var winston = require('winston');
 
 /* Connect database */
 mongoose.connect('mongodb://localhost/qsfamily', {
@@ -27,8 +28,17 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 
-/* logger */
-app.use(morgan('dev'));
+if ('production' == app.get('env')) {
+  // trust proxy to get X-forward-for ip
+  app.set('trust proxy', 'loopback');
+  // request logger
+  app.use(morgan('combined'));
+} else {
+  app.use(morgan('dev'));
+}
+
+/* global behaviour logger */
+global.Logger = winston;
 
 /* session */
 var session = require('express-session');
