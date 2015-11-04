@@ -29,7 +29,7 @@ append content
                                     h4 说明
                                     p= assignment.reference.description
                                 .panel-foot
-                                    form(action="/assignment/upload", method="POST", enctype="multipart/form-data")
+                                    form.assignment-upload(action="/assignment/upload", method="POST", enctype="multipart/form-data")
                                         input.is-hidden(type="text", name="assignment", value="" + assignment._id)
                                         input.is-hidden(type="text", name="title", value="" + assignment.reference.title)
                                         input.btn.btn-default.btn-small(type="file", name="file")

@@ -69,9 +69,26 @@ $(function() {
       },
       success: function(data) {
         console.log(data);
-        location.reload();
+        window.location.reload();
       }
     });
+  });
+
+  assignmentWrap.find('.assignment-upload').submit(function(e) {
+    e.preventDefault();
+    console.log(this);
+    var formData = new FormData(this);
+    console.log(formData);
+    $.ajax('/assignment/upload', {
+      method: 'POST',
+      processData: false,
+      cache: false,
+      contentType: false,
+      data: formData,
+      success: function() {
+        window.location.reload();
+      }
+    })
   });
 
   /*
@@ -120,7 +137,7 @@ $(function() {
       },
       success: function(data) {
         console.log(data);
-        location.reload();
+        window.location.reload();
       }
     });
   });
