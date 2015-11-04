@@ -106,7 +106,7 @@ app.post('/', function(req, res, next) {
   });
 });
 
-app.post('/grant', function(req, res, next) {
+app.post('/grant', auth("Teacher"), function(req, res, next) {
   var salt = crypto.randomBytes(64).toString('base64');
   debug("New user:");
   debug("Username:", req.body.username);
