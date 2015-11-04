@@ -9,7 +9,29 @@ $(function() {
   var textarea = $('#write-content');
   if (textarea.length !== 0) {
     var editor = new Simditor({
-      textarea: textarea
+      textarea: textarea,
+      toolbar: [
+        'title',
+        'bold',
+        'italic',
+        'underline',
+        'strikethrough',
+        'color',
+        '|',
+        'ol',
+        'ul',
+        'blockquote',
+        'code',
+        'table',
+        '|',
+        'link',
+        //'image',
+        'hr',
+        '|',
+        'indent',
+        'outdent',
+        'alignment'
+      ]
     });
   }
 
