@@ -1,0 +1,19 @@
+extends layout/default
+
+append content
+    #register-wrap
+        form#register-form(action="/register", method="POST")
+            .input-group
+                label(for="studentId") 学号
+                input(type="text", name="studentId", placeholder="Student ID", required)
+            .input-group
+                label(for="name") 姓名
+                input(type="text", name="name", placeholder="Name", required)
+            .input-group
+                label(for="username") 用户名
+                input(type="text", name="username", placeholder="Username", required)
+            .input-group
+                label(for="password") 密码
+                input(type="password", name="password", placeholder="Password", required)
+            .input-group
+                button.btn.btn-primary(type="submit") 注册

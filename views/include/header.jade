@@ -8,13 +8,13 @@ header#header
                 a(href="/") 首页
             li#nav-course
                 a(href="/course") 课程
-            if (!session.user)
+            if (!session || !session.user)
                 li#nav-login
                     a(href="/login") 登入
                 li#nav-register
                     a(href="/register") 注册
             else
-                if (session.user.role === 'Teacher')
+                if (session.user && session.user.role === 'Teacher')
                     li#nav-write
                         a(href="/write") 撰写公告
                 li#nav-workspace
