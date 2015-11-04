@@ -40,20 +40,10 @@ app.post('/', function(req, res, next) {
     ]
   }).then(function(student) {
     if (!student) {
-      return res.render('register', {
-        message: {
-          type: 'error',
-          text: '请输入正确的学号和姓名'
-        }
-      });
+      throw new Error('请输入正确的学号和姓名');
     }
     if (!checkUsernameReg.test(req.body.username) || !checkPasswordReg.test(req.body.password)) {
-      return res.render('register', {
-        message: {
-          type: 'error',
-          text: '用户名只能包含数字、字母、汉字和下划线, 至少 6 位. 密码必须包含一个字母和一个数字, 至少 8 位'
-        }
-      });
+      throw new Error('用户名只能包含数字、字母、汉字和下划线，至少 6 位。密码必须包含一个字母和一个数字，至少 8 位');
     }
     var user = {
       username: req.body.username,
@@ -71,6 +61,9 @@ app.post('/', function(req, res, next) {
     var queryCourse = Course.findById(student.course);
     return Promise.all([addStudent, queryCourse]);
   }).then(function(result) {
+    if (!result[0]) {
+      throw new Error('用户名已经被使用');
+    }
     var student = result[0];
     var course = result[1];
     var cookedAssignments = course.assignments.map(function(assignment) {
@@ -102,7 +95,12 @@ app.post('/', function(req, res, next) {
       }
     });
   }).catch(function(err) {
-    next(err);
+    return res.render('register', {
+      message: {
+        type: 'error',
+        text: err.message
+      }
+    });
   });
 });
 
