@@ -53,8 +53,8 @@ app.get('/student/course/:id', auth('Student'), function(req, res, next) {
         if (!assignment.reference) return false;
         return assignment.reference.course == req.params.id;
       }).map(function(assignment) {
-        assignment.reference.dueDateFormated = Moment(assignment.reference.dueDate).format('YYYY 年 MM 月 DD 日 hh: mm');
-        assignment.reference.deadlineFormated = Moment(assignment.reference.deadline).format('YYYY 年 MM 月 DD 日 hh: mm');
+        assignment.reference.dueDateFormated = Moment(assignment.reference.dueDate).format('YYYY 年 MM 月 DD 日 HH: mm');
+        assignment.reference.deadlineFormated = Moment(assignment.reference.deadline).format('YYYY 年 MM 月 DD 日 HH: mm');
         return assignment;
       });
       return res.render('course', {
@@ -75,8 +75,8 @@ app.get('/teacher/course/:id', auth('Teacher'), function(req, res, next) {
       debug("Found course:", course.name);
       var assignments = course.assignments.map(function (assignment) {
         debug(assignment);
-        assignment.dueDateFormated = Moment(assignment.dueDate).format('YYYY 年 MM 月 DD 日 hh: mm');
-        assignment.deadlineFormated = Moment(assignment.deadline).format('YYYY 年 MM 月 DD 日 hh: mm');
+        assignment.dueDateFormated = Moment(assignment.dueDate).format('YYYY 年 MM 月 DD 日 HH: mm');
+        assignment.deadlineFormated = Moment(assignment.deadline).format('YYYY 年 MM 月 DD 日 HH: mm');
         return assignment;
       });
       return res.render('course-management', {
