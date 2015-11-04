@@ -4,12 +4,6 @@
 
 var models = require('node-require-directory')(__dirname);
 var config = require('config');
-var mongoose = require('mongoose');
-
-mongoose.connect('mongodb://localhost/qsfamily', {
-  user: config.get('db.username'),
-  pass: config.get('db.password')
-});
 
 Object.keys(models).forEach(function(key) {
   if (key === 'index') return;
