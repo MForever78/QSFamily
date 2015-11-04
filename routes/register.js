@@ -24,6 +24,9 @@ function cookPassword(key, salt) {
     .digest('base64');
 }
 
+var checkUsernameReg = /^[A-Za-z0-9_\u4e00-\u9fa5]{6,20}$/;
+var checkPasswordReg = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+
 app.post('/', function(req, res, next) {
   var salt = crypto.randomBytes(64).toString('base64');
   debug("New student:");
@@ -37,7 +40,20 @@ app.post('/', function(req, res, next) {
     ]
   }).then(function(student) {
     if (!student) {
-      return res.render('register', { error: true });
+      return res.render('register', {
+        message: {
+          type: 'error',
+          text: '请输入正确的学号和姓名'
+        }
+      });
+    }
+    if (!checkUsernameReg.test(req.body.username) || !checkPasswordReg.test(req.body.password)) {
+      return res.render('register', {
+        message: {
+          type: 'error',
+          text: '用户名只能包含数字、字母、汉字和下划线, 至少 6 位. 密码必须包含一个字母和一个数字, 至少 8 位'
+        }
+      });
     }
     var user = {
       username: req.body.username,
@@ -62,12 +78,19 @@ app.post('/', function(req, res, next) {
       cookedAssignment.reference = assignment;
       return cookedAssignment;
     });
+    // add student to course attendee
+    var addToCourse = course.update({
+      $push: {
+        attendee: student._id
+      }
+    });
     // add assignments to student
-    return student.update({
+    var addToStudent = student.update({
       $push: {
         assignments: { $each: cookedAssignments }
       }
     });
+    return Promise.all([addToCourse, addToStudent]);
   }).then(function() {
     // remove student from register
     return outer.student.remove();
