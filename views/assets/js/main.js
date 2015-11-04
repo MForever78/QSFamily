@@ -85,6 +85,13 @@ $(function() {
   }
 
   /*
+    Message
+   */
+  $('.message').children('.message-icon').on('click', function() {
+    $(this).parent().addClass('is-hidden');
+  });
+
+  /*
     Course management
    */
   var courseId = $('#workspace-wrap')[0].dataset.courseId;

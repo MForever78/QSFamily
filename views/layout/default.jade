@@ -28,6 +28,7 @@ html(lang="zh")
         meta(name="theme-color", content="#ffffff")
 
         link(rel="stylesheet", href="/css/normalize.css")
+        link(rel="stylesheet", href="/css/font-awesome.min.css")
         script(src="/js/jquery-2.1.4.min.js")
 
     block stylesheet
@@ -36,5 +37,9 @@ html(lang="zh")
     body
         block content
             include ../include/header
+            if (message)
+                .message(class=message.type)
+                    .message-icon.fa.fa-close(data-action=close)
+                    .message-body= message.text
         block script
             script(src="/js/main.js")
