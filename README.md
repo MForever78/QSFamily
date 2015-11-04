@@ -1,4 +1,5 @@
 # QSFamily
+
 QSFamily website source code
 
 ## Demand Analysis
@@ -8,12 +9,10 @@ QSFamily website source code
 ## Technique Choice
 
 - Backend
-    - Language: io.js
+    - Language: Node.js
     - Framework: Express
-    - Database: MySQL (for data storage), Redis (for session storage)
+    - Database: MongoDB, Redis (for session storage)
 - Frontend
-    - UI Framework: Semantic UI
-    - MVC Framework: Backbone.js
     - Video Player: video.js
 
 ## Database Structure
