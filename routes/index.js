@@ -3,18 +3,19 @@
  */
 
 var routes = require('node-require-directory')(__dirname);
+var moment = require('moment');
 
 module.exports = function(app) {
   app.use('/$', function(req, res, next) {
     News.find({})
+      .sort({createAt: 'desc'})
       .populate('author')
       .then(function(newsList) {
         // Add following property:
         //    news.date with format: "XXXX 年 YY 月 ZZ 日"
         //    news.url: "/news/<ObjectId>"
         var newsList = newsList.map(function(news) {
-          var date = news.createAt;
-          news.date = date.getFullYear() + ' 年 ' + (date.getMonth() + 1) + ' 月 ' + date.getDate() + ' 日';
+          news.date = moment(news.createAt).format('YYYY 年 MM 月 DD 日 HH: mm');
           news.url = "/news/" + news._id;
           return news;
         });
