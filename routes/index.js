@@ -18,11 +18,11 @@ module.exports = function(app) {
           news.url = "/news/" + news._id;
           return news;
         });
-        res.render('index', {
+        return res.render('index', {
           session: req.session,
           newsList: newsList
         });
-      })
+      });
   });
 
   Object.keys(routes).forEach(function(key) {
@@ -38,7 +38,7 @@ module.exports = function(app) {
 
   app.use(function(err, req, res, next) {
     // error
-    console.log(err.stack);
+    Logger.error(err.stack);
     res.sendStatus(500);
   });
 };

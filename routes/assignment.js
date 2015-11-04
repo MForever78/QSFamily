@@ -98,6 +98,14 @@ app.post('/upload', auth("Student"), upload.single('file'), function(req, res, n
       return student.save();
     }).then(function() {
       return res.json({code: 0});
+    }).catch(function(err) {
+      Logger.error("Upload assignment error");
+      Logger.error("User", req.session.user.username, "upload assignment", assignment._id);
+      Logger.error(err.stack);
+      return res.json({
+        code: 1,
+        message: "上传错误"
+      });
     });
 });
 
