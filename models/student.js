@@ -36,6 +36,10 @@ var studentSchema = new Schema({
       type: Boolean,
       "default": false
     },
+    rank: {
+      type: Number,
+      "default": 0
+    },
     updateAt: Date,
     attachmentUrl: String,
     remark: String
