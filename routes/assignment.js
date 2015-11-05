@@ -89,7 +89,7 @@ app.post('/upload', auth("Student"), upload.single('file'), function(req, res, n
   return Student.findById(req.session.user._id)
     .then(function(student) {
       student.assignments = student.assignments.map(function(assignment) {
-        if (assignment._id == req.body.assignment) {
+        if (assignment.reference == req.body.assignment) {
           assignment.complete = true;
           assignment.attachmentUrl = req.file.filename;
         }
