@@ -98,9 +98,8 @@ $(function() {
 
   assignmentWrap.find('.assignment-upload').submit(function(e) {
     e.preventDefault();
-    console.log(this);
+    $(this).find('button').prop('disabled', true).addClass('loading');
     var formData = new FormData(this);
-    console.log(formData);
     $.ajax('/assignment/upload', {
       method: 'POST',
       processData: false,
