@@ -28,9 +28,11 @@ append content
                                     p= assignment.reference.deadlineFormated
                                     h4 说明
                                     p= assignment.reference.description
-                                .panel-foot
-                                    form.assignment-upload(action="/assignment/upload", method="POST", enctype="multipart/form-data")
-                                        input.is-hidden(type="text", name="assignment", value="" + assignment.reference._id)
-                                        input.is-hidden(type="text", name="title", value="" + assignment.reference.title)
-                                        input.btn.btn-default.btn-small(type="file", name="file")
-                                        button.btn.btn-primary.btn-small(type="submit") 上传
+                                - now = new Date();
+                                if (now < assignment.reference.dueDate)
+                                    .panel-foot
+                                        form.assignment-upload(action="/assignment/upload", method="POST", enctype="multipart/form-data")
+                                            input.is-hidden(type="text", name="assignment", value="" + assignment.reference._id)
+                                            input.is-hidden(type="text", name="title", value="" + assignment.reference.title)
+                                            input.btn.btn-default.btn-small(type="file", name="file")
+                                            button.btn.btn-primary.btn-small(type="submit") 上传

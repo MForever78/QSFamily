@@ -87,9 +87,15 @@ app.post('/upload', auth("Student"), upload.single('file'), function(req, res, n
   debug("Uploaded assignment:");
   debug(req.body);
   return Student.findById(req.session.user._id)
+    .populate('assignments.reference')
     .then(function(student) {
       student.assignments = student.assignments.map(function(assignment) {
-        if (assignment.reference == req.body.assignment) {
+        if (assignment.reference._id == req.body.assignment) {
+          // if has passed the due date, then refuse it
+          var now = new Date();
+          if (now > assignment.reference.dueDate) {
+            throw new Error("Due date passed, yet user want to upload assignment!");
+          }
           assignment.complete = true;
           assignment.attachmentUrl = req.file.filename;
         }
