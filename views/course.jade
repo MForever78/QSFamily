@@ -19,7 +19,11 @@ append content
                                 if (assignment.complete)
                                     .assignment-status.success 已提交
                                 else
-                                    .assignment-status.warn 未提交
+                                    - var now = new Date();
+                                    if (now < assignment.reference.dueDate)
+                                        .assignment-status.warn 未提交
+                                    else
+                                        .assignment-status.error 已超过截止时间，请在最后期限内将作业用邮件提交给老师和助教
                             .panel-collapse(id=assignment.reference._id)
                                 .panel-body
                                     h4 提交截止时间
@@ -28,7 +32,6 @@ append content
                                     p= assignment.reference.deadlineFormated
                                     h4 说明
                                     p= assignment.reference.description
-                                - now = new Date();
                                 if (now < assignment.reference.dueDate)
                                     .panel-foot
                                         form.assignment-upload(action="/assignment/upload", method="POST", enctype="multipart/form-data")
