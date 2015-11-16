@@ -7,10 +7,13 @@ var debug = require('debug')('QSFamily:route:assignment');
 var auth = require('../middleware/auth');
 var mkdirp = require('mkdirp');
 var multer = require('multer');
+var fs = require('fs');
+
+var uploadDest = __dirname + '/../../upload/assignments/';
 
 var storage = multer.diskStorage({
   destination: function(req, file, callback) {
-    var dest = __dirname + '/../../upload/assignments/' + req.body.assignment;
+    var dest = uploadDest + req.body.assignment;
     mkdirp.sync(dest);
     callback(null, dest);
   },
@@ -96,8 +99,17 @@ app.post('/upload', auth("Student"), upload.single('file'), function(req, res, n
           if (now > assignment.reference.dueDate) {
             throw new Error("Due date passed, yet user want to upload assignment!");
           }
-          assignment.complete = true;
-          assignment.attachmentUrl = req.file.filename;
+          if (!assignment.complete) {
+            // first time upload assignment, just accept it
+            assignment.complete = true;
+            assignment.attachmentUrl = req.file.filename;
+          } else {
+            // not first time, remove the original one first
+            // usage of sync maybe slow
+            fs.unlinkSync(uploadDest + assignment.reference._id + '/' + assignment.attachmentUrl);
+            // update attachmentUrl
+            assignment.attachmentUrl = req.file.filename;
+          }
         }
         return assignment;
       });
