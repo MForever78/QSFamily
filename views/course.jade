@@ -12,6 +12,7 @@ append content
             .panel-group
                 if (assignments.length > 0)
                     each assignment in assignments
+                        - var now = new Date();
                         .panel
                             .panel-heading
                                 h3.panel-title
@@ -19,7 +20,6 @@ append content
                                 if (assignment.complete)
                                     .assignment-status.success 已提交
                                 else
-                                    - var now = new Date();
                                     if (now < assignment.reference.dueDate)
                                         .assignment-status.warn 未提交
                                     else
