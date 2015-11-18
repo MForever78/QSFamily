@@ -1,98 +1,100 @@
 extends layout/default
 
 append content
-   #workspace-wrap(data-course-id="" + course._id)
-      nav.workspace-nav
-         ul
-           li
-              a(href="javascript:void(0)", data-target="assignment") 作业管理
-           li
-              a(href="javascript:void(0)", data-target="attachment") 课件管理
-           li
-              a(href="javascript:void(0)", data-target="student") 学生管理
-      #assignment-wrap
-          form(action="/assignment", method="POST")
-              .btn.btn-primary(data-action="add") 新增作业
-              .form.form-bordered.is-hidden
-                  .input-group
-                      label(for="title") 标题
-                      input(type="text", name="title")
-                      label(for="#description") 描述
-                      input(type="text", name="description")
-                      label(for="#duedate") 截止时间
-                      input(type="date", name="dueDate")
-                      label(for="#deadline") 最后期限
-                      input(type="date", name="deadline")
-                      input.is-hidden(type="text", name="course", value=course._id)
-                  .input-group
-                      button.btn.btn-primary(type="submit") 提交
-          .panel-group
-            if (assignments.length > 0)
-               each assignment in assignments
-                  .panel
-                     .panel-heading
-                        h3.panel-title
-                           a(href="javascript:void(0)", data-action="toggle", data-target="#" + assignment._id)= assignment.title
-                     .panel-collapse(id=assignment._id)
-                        .panel-body
-                           h4 提交截止时间
-                           p= assignment.dueDateFormated
-                           h4 最后期限
-                           p= assignment.deadlineFormated
-                           h4 说明
-                           p= assignment.description
-                        .panel-foot
-                            .btn.btn-error.btn-small(data-action="delete", data-target="" + assignment._id) 删除作业
-                            .btn.btn-primary.btn-small(data-action="correct", data-target="" + assignment._id) 批改作业
-      #student-wrap
-          .student-manage-item.btn.btn-primary(data-action="add") 增加学生
-          .student-manage-item.btn.btn-primary(data-action="bulk") 批量添加
-          form#add-form(action="student", method="POST")
-             .form.form-bordered.is-hidden
-                 .input-group
-                     label(for="#studentId") 学号
-                     input(type="text", name="student")
-                     input.is-hidden(type="text", name="course", value=course._id)
-                 .input-group
-                     button.btn.btn-primary(type="submit") 提交
-          form#bulk-form(action="/register/sheet", method="POST", enctype="multipart/form-data")
-              .form.form-bordered.is-hidden
-                  .input-group
-                      input.is-hidden(type="text", name="course", value=course._id)
-                      input.btn.btn-default.btn-small(type="file", name="file")
-                      button.btn.btn-primary.btn-small(type="submit") 上传
-          table.table
-            thead
-               tr
-                  th 姓名
-                  th 学号
-                  th 性别
-                  th 专业
-                  th 邮箱
-                  th 手机
-                  th 状态
-                  th 操作
-            tbody
-               if (students.length > 0)
-                  each student in students
-                     tr
-                        td= student.name
-                        td= student.studentId
-                        td= student.gender
-                        td= student.department
-                        td= student.email
-                        td= student.phone
-                        td 已注册
-                        td
-                            a.negative(href="javascript:void(0)", data-action="delete", data-target="" + student._id) 删除
-               if (register.length > 0)
-                   each student in register
-                       tr
-                           td= student.name
-                           td= student.studentId
-                           td= student.gender
-                           td= student.department
-                           td
-                           td
-                           td 未注册
-                           td
+    #workspace-wrap(data-course-id="" + course._id)
+        nav.workspace-nav
+            ul
+                li
+                    a(href="javascript:void(0)", data-target="assignment") 作业管理
+                li
+                    a(href="javascript:void(0)", data-target="correction") 批改作业
+                li
+                    a(href="javascript:void(0)", data-target="attachment") 课件管理
+                li
+                    a(href="javascript:void(0)", data-target="student") 学生管理
+        #assignment-wrap
+            form(action="/assignment", method="POST")
+                .btn.btn-primary(data-action="add") 新增作业
+                .form.form-bordered.is-hidden
+                    .input-group
+                        label(for="title") 标题
+                        input(type="text", name="title")
+                        label(for="#description") 描述
+                        input(type="text", name="description")
+                        label(for="#duedate") 截止时间
+                        input(type="date", name="dueDate")
+                        label(for="#deadline") 最后期限
+                        input(type="date", name="deadline")
+                        input.is-hidden(type="text", name="course", value=course._id)
+                    .input-group
+                        button.btn.btn-primary(type="submit") 提交
+            .panel-group
+                if (assignments.length > 0)
+                    each assignment in assignments
+                        .panel
+                            .panel-heading
+                                h3.panel-title
+                                    a(href="javascript:void(0)", data-action="toggle", data-target="#" + assignment._id)= assignment.title
+                            .panel-collapse(id=assignment._id)
+                            .panel-body
+                                h4 提交截止时间
+                                p= assignment.dueDateFormated
+                                h4 最后期限
+                                p= assignment.deadlineFormated
+                                h4 说明
+                                p= assignment.description
+                            .panel-foot
+                                .btn.btn-error.btn-small(data-action="delete", data-target="" + assignment._id) 删除作业
+                                .btn.btn-primary.btn-small(data-action="correct", data-target="" + assignment._id) 批改作业
+        #student-wrap
+            .student-manage-item.btn.btn-primary(data-action="add") 增加学生
+            .student-manage-item.btn.btn-primary(data-action="bulk") 批量添加
+            form#add-form(action="student", method="POST")
+                .form.form-bordered.is-hidden
+                    .input-group
+                        label(for="#studentId") 学号
+                        input(type="text", name="student")
+                        input.is-hidden(type="text", name="course", value=course._id)
+                    .input-group
+                        button.btn.btn-primary(type="submit") 提交
+            form#bulk-form(action="/register/sheet", method="POST", enctype="multipart/form-data")
+                .form.form-bordered.is-hidden
+                    .input-group
+                        input.is-hidden(type="text", name="course", value=course._id)
+                        input.btn.btn-default.btn-small(type="file", name="file")
+                        button.btn.btn-primary.btn-small(type="submit") 上传
+            table.table
+                thead
+                    tr
+                        th 姓名
+                        th 学号
+                        th 性别
+                        th 专业
+                        th 邮箱
+                        th 手机
+                        th 状态
+                        th 操作
+                tbody
+                    if (students.length > 0)
+                        each student in students
+                            tr
+                                td= student.name
+                                td= student.studentId
+                                td= student.gender
+                                td= student.department
+                                td= student.email
+                                td= student.phone
+                                td 已注册
+                                td
+                                    a.negative(href="javascript:void(0)", data-action="delete", data-target="" + student._id) 删除
+                    if (register.length > 0)
+                        each student in register
+                            tr
+                               td= student.name
+                               td= student.studentId
+                               td= student.gender
+                               td= student.department
+                               td
+                               td
+                               td 未注册
+                               td
