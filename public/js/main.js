@@ -133,11 +133,11 @@ $(function() {
     Course management
    */
   var courseId = $('#workspace-wrap')[0].dataset.courseId;
-  $('.workspace-nav').on('click', function(e) {
+  $('.workspace-nav a').on('click', function(e) {
     e.preventDefault();
     $('#workspace-wrap').children('.is-active').removeClass('is-active');
     $('#' + e.target.dataset.target + '-wrap').addClass('is-active');
-  }).find('a').first().click();
+  }).first().click();
 
   var studentWrap = $('#student-wrap');
 
