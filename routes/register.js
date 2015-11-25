@@ -104,6 +104,17 @@ app.post('/', function(req, res, next) {
   });
 });
 
+app.post('/reset', auth("Teacher"), function(req, res, next) {
+  return User.findById(req.body.id)
+    .then(function(user) {
+      if (!user) throw new Error("Cannot find user for id:", req.body.id);
+      user.password = cookPassword(req.body.password, user.salt);
+      return user.save();
+    }).then(function() {
+      return res.json({code: 0});
+    });
+});
+
 app.post('/grant', auth("Teacher"), function(req, res, next) {
   var salt = crypto.randomBytes(64).toString('base64');
   debug("New user:");
