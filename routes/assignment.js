@@ -118,7 +118,7 @@ app.post('/upload', auth("Student"), upload.single('file'), function(req, res, n
       return res.json({code: 0});
     }).catch(function(err) {
       Logger.error("Upload assignment error");
-      Logger.error("User", req.session.user.username, "upload assignment", assignment._id);
+      Logger.error("User", req.session.user.username, "upload assignment", req.body.assignment);
       Logger.error(err.stack);
       return res.json({
         code: 1,
