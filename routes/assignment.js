@@ -93,7 +93,7 @@ app.post('/upload', auth("Student"), upload.single('file'), function(req, res, n
     .populate('assignments.reference')
     .then(function(student) {
       student.assignments = student.assignments.map(function(assignment) {
-        if (assignment.reference._id == req.body.assignment) {
+        if (assignment.reference && assignment.reference._id == req.body.assignment) {
           // if has passed the due date, then refuse it
           var now = new Date();
           if (now > assignment.reference.dueDate) {
