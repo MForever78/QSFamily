@@ -77,6 +77,8 @@ app.delete('/', function(req, res, next) {
         $pull: {
           assignments: { reference: req.body.id }
         }
+      }, {
+        multi: true
       });
       var delFromCourse = course.update({ $pull: { assignments: req.body.id }});
       var delAssignment = outer.assignment.remove();
@@ -128,3 +130,4 @@ app.post('/upload', auth("Student"), upload.single('file'), function(req, res, n
 });
 
 module.exports = app;
+
