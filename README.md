@@ -11,8 +11,10 @@ QSFamily website source code
 - Backend
     - Language: Node.js
     - Framework: Express
-    - Database: MongoDB, Redis (for session storage)
+    - Database: MongoDB
+    - Database ORM: Mongoose.js
 - Frontend
+    - WYSIWYG editor: Simditor
     - Video Player: video.js
 
 ## Database Structure
