@@ -30,6 +30,10 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage });
 
 app.post('/', function(req, res, next) {
+  // Logger middleware
+  Logger.info("Adding assignment:", req.body);
+  next();
+}, function(req, res, next) {
   var outer = {};
   return Assignment.create({
     title: req.body.title,
@@ -61,14 +65,19 @@ app.post('/', function(req, res, next) {
     debug("Add assignment to student model SUCCEED");
     return res.json({ code: 0 });
   }).catch(function(err) {
-    Logger.error("Add assignment error");
-    Logger.error("User", req.session.user.username, "add assignment", req.body.title);
-    Logger.error(err.stack); 
+    next(err);
     return res.json({
       code: -1,
       message: "添加作业失败"
     });
   });
+}, function(err, req, res, next) {
+  // error logger
+  if (err) {
+    Logger.error("Add assignment error");
+    Logger.error("User", req.session.user.username, "add assignment", req.body.title);
+    Logger.error(err.stack); 
+  }
 });
 
 app.delete('/', function(req, res, next) {
@@ -94,19 +103,23 @@ app.delete('/', function(req, res, next) {
     }).then(function() {
       return res.json({ code: 0 });
     }).catch(function(err) {
-      Logger.error("Delete assignment error");
-      Logger.error("User", req.session.user.username, "delete assignment", req.body.id);
-      Logger.error(err.stack);
+      next(err);
       return res.json({
         code: -1,
         message: "删除作业失败"
       });
     });
+}, function(err, req, res, next) {
+  if (err) {
+    Logger.error("Delete assignment error");
+    Logger.error("User", req.session.user.username, "delete assignment", req.body.id);
+    Logger.error(err.stack);
+  }
 });
 
 app.post('/upload', auth("Student"), upload.single('file'), function(req, res, next) {
-  debug("Uploaded assignment:");
-  debug(req.body);
+  Logger.info("Uploaded assignment:", req.body);
+}, function(req, res, next) {
   return Student.findById(req.session.user._id)
     .populate('assignments.reference')
     .then(function(student) {
@@ -135,14 +148,18 @@ app.post('/upload', auth("Student"), upload.single('file'), function(req, res, n
     }).then(function() {
       return res.json({code: 0});
     }).catch(function(err) {
-      Logger.error("Upload assignment error");
-      Logger.error("User", req.session.user.username, "upload assignment", req.body.assignment);
-      Logger.error(err.stack);
+      next(err);
       return res.json({
         code: 1,
         message: "上传错误"
       });
     });
+}, function(err, req, res, next) {
+  if (err) {
+    Logger.error("Upload assignment error");
+    Logger.error("User", req.session.user.username, "upload assignment", req.body.assignment);
+    Logger.error(err.stack);
+  }
 });
 
 module.exports = app;
