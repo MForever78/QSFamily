@@ -60,6 +60,14 @@ app.post('/', function(req, res, next) {
   }).then(function() {
     debug("Add assignment to student model SUCCEED");
     return res.json({ code: 0 });
+  }).catch(function(err) {
+    Logger.error("Add assignment error");
+    Logger.error("User", req.session.user.username, "add assignment", req.body.title);
+    Logger.error(err.stack); 
+    return res.json({
+      code: -1,
+      message: "添加作业失败"
+    });
   });
 });
 
@@ -85,6 +93,14 @@ app.delete('/', function(req, res, next) {
       return Promise.all([delFromStudent, delFromCourse, delAssignment]);
     }).then(function() {
       return res.json({ code: 0 });
+    }).catch(function(err) {
+      Logger.error("Delete assignment error");
+      Logger.error("User", req.session.user.username, "delete assignment", req.body.id);
+      Logger.error(err.stack);
+      return res.json({
+        code: -1,
+        message: "删除作业失败"
+      });
     });
 });
 
