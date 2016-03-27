@@ -38,3 +38,4 @@ assignmentSchema.pre('update', function() {
 
 var Assignment = mongoose.model('Assignment', assignmentSchema);
 module.exports = Assignment;
+

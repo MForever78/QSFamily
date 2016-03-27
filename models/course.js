@@ -30,10 +30,16 @@ var courseSchema = new Schema({
     ref: 'Assignment'
   }],
 
+  activating: {
+    type: Boolean,
+    "default": true
+  },
+
   createAt: {
     type: Date,
     "default": new Date()
   },
+
   updateAt: Date
 });
 
