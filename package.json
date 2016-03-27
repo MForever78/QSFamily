@@ -32,6 +32,7 @@
     "morgan": "^1.6.1",
     "multer": "^1.1.0",
     "node-require-directory": "^1.0.2",
+    "nodemailer": "^2.3.0",
     "winston": "^2.1.0",
     "xlsx": "^0.8.0"
   },
