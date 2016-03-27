@@ -19,6 +19,20 @@ app.get('/new', function(req, res, next) {
   });
 });
 
+app.post('/close/:courseid', auth("Teacher"), function(req, res, next) {
+  return Course.findByIdAndUpdate(req.params.courseid,
+    {$set: {activating: false}}).then(function() {
+      return res.json({code: 0});
+    }).catch(function(err) {
+      Logger.error("Close course failed");
+      Logger.error(err.stack);
+      res.json({
+        code: -1,
+        message: "结课失败"
+      });
+    });
+});
+
 app.post('/', auth("Teacher"), function(req, res, next) {
   return Course.create({
     name: req.body.title,
