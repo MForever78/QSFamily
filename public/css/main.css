@@ -98,7 +98,8 @@ article {
 #message {
   margin: 30px auto;
 }
-#course-list-wrap {
+#course-list-wrap,
+#profile-wrap {
   width: 960px;
   margin: 30px auto;
   position: relative;
@@ -183,31 +184,37 @@ article {
   transition: all .2s ease;
 }
 /*
-  Course list
+  Course list & Profile list
 */
-.course-list {
+.course-list,
+.profile-list {
   width: 25%;
   display: inline-block;
   list-style: none;
   vertical-align: top;
   margin: 0;
 }
-.course-list li {
+.course-list li,
+.profile-list li {
   border-right: solid 1px #d4d4d5;
 }
-.course-list li a {
+.course-list li a,
+.profile-list li a {
   display: block;
   padding: 10px 20px;
 }
-.course-list li a:hover {
+.course-list li a:hover,
+.profile-list li a:hover {
   color: #34495e;
 }
-.course-list li.active {
+.course-list li.active,
+.profile-list li.active {
   font-weight: bold;
   border: solid 1px #d4d4d5;
   border-right: none;
 }
-.course-desc {
+.course-desc,
+.profile-desc {
   width: 65%;
   display: inline-block;
   padding-left: 30px;
