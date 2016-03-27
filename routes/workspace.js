@@ -24,8 +24,11 @@ app.get('/', function(req, res, next) {
       return Student.findById(req.session.user._id)
         .populate('courseTaking')
         .then(function(user) {
+          var activatingCourse = user.courseTaking.filter(function(course) {
+            return course.activating;
+          });
           return res.render('workspace', {
-            courseList: user.courseTaking,
+            courseList: activatingCourse,
             session: req.session
           });
         });
