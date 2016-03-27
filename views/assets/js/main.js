@@ -85,6 +85,23 @@ var QSFamily = {
     });
   },
 
+  profileWrap: function() {
+    $('.profile-tab').on('click', function(e) {
+      e.preventDefault();
+      var tab = $(e.currentTarget);
+      tab.addClass("active");
+      tab.siblings().removeClass("active");
+      // active tab content
+      var content = $(e.target.dataset.target);
+      // remove in first to let animation work
+      content.siblings().removeClass("in");
+      setTimeout(function () {
+        content.siblings().removeClass("active");
+        content.addClass("active in");
+      }, 200);
+    }).first().find('a').click();
+  },
+
   assignmentWrap: function() {
     var assignmentWrap = $('#assignment-wrap');
     assignmentWrap.find('a[data-action=toggle]').on('click', function(e) {
