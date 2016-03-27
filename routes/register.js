@@ -163,7 +163,27 @@ app.post('/sheet', auth("Teacher"), upload.single('file'), function(req, res, ne
     students.push(student);
   }
   debug(students);
-  return Register.create(students).then(function() {
+  return Register.create(students).then(function(newStudents) {
+    // query all the "new" students who have already in the database
+    newStudentsId = newStudents.map(function(newStudent) {
+      return newStudent.studentId;
+    });
+    return Student.find({
+      studentId: {
+        $in: newStudentsId
+      }
+    })
+  }).then(function(oldStudents) {
+    // delete all the old students from registry
+    oldStudentsId = oldStudents.map(function(oldStudent) {
+      return oldStudent.studentId;
+    })
+    return Register.remove({
+      studentId: {
+        $in: oldStudentsId
+      }
+    });
+  }).then(function() {
     return res.json({ code: 0 });
   });
 });
