@@ -256,6 +256,7 @@
 }
 
 .workspace-item {
+  position: relative;
   float: left;
   margin: 0 20px 10px 0;
   border: solid 1px #eee;
@@ -267,6 +268,17 @@
   cursor: pointer;
   padding: 10px 15px;
   box-sizing: border-box;
+
+  li {
+    font-weight: normal;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+  }
+
+  li:hover {
+    color: @hover-font-color;
+  }
 }
 
 .workspace-item:hover {
