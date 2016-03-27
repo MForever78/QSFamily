@@ -22,6 +22,14 @@ var QSFamily = {
     });
   }, 
 
+  loginWrap: function() {
+    $('a.forget').on('click', function(e) {
+      e.preventDefault();
+      $('#login').addClass('is-hidden');
+      $('#findpassword').removeClass('is-hidden');
+    });
+  },
+
   writeWrap: function() {
     var textarea = $('#write-content');
     if (textarea.length !== 0) {
