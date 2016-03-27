@@ -73,7 +73,7 @@ var QSFamily = {
     }).first().find('a').click();
 
     $('a[data-action=edit]').on('click', function(e) {
-      window.href = '/edit/course/' + e.target.dataset.id;
+      location.href = '/edit/course/' + e.target.dataset.id;
     });
 
     $('a[data-action=delete]').on('click', function() {
@@ -81,7 +81,7 @@ var QSFamily = {
     });
 
     $('a[data-action=new]').on('click', function() {
-      window.href = '/write/course';
+      location.href = '/write/course';
     });
   },
 
@@ -135,6 +135,28 @@ var QSFamily = {
       $('#workspace-wrap').children('.is-active').removeClass('is-active');
       $('#' + e.target.dataset.target + '-wrap').addClass('is-active');
     }).first().click();
+  },
+
+  workspaceContentWrap: function() {
+    // handle the item menu
+    $('.workspace-item li').on('click', function(e) {
+      e.stopPropagation();
+      // TODO: replace "if" to a more generic method
+      if (this.dataset.action === "close") {
+        $.ajax({
+          url: '/course/close/' + this.dataset.target,
+          method: 'POST',
+          success: function(data) {
+            console.log(data);
+            window.location.reload();
+          }
+        });
+      }
+    });
+
+    $('.workspace-item').on('click', function(e) {
+      location.href = this.dataset.target;
+    });
   },
 
   studentWrap: function() {
