@@ -1,0 +1,17 @@
+extends layout/default
+
+append content
+    #profile-wrap
+        ul.profile-list
+            li.profile-tab
+                a(href="javascript:void(0)", data-target="password") 修改密码
+        .profile-desc 
+            form.password-form(action="/profile/resetpassword", method="POST")
+                .input-group
+                    label(for="old-password") 当前密码
+                    input(type="password", name="oldpassword", required)
+                .input-group
+                    label(for="password") 新密码
+                    input(type="password", name="password", required)
+                .input-group
+                    button.btn.btn-primary(type="submit") 提交
