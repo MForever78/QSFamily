@@ -9,6 +9,7 @@ append content
             ul.workspace-list
                 if (courseList.length > 0)
                     each course in courseList
-                        a(href="/workspace/" + session.user.role + "/course/" + course._id)
-                            li.workspace-item
-                                h4= course.name
+                        li.workspace-item(data-target="/workspace/" + session.user.role + "/course/" + course._id)
+                            h4= course.name
+                                if (session.user && session.user.role === "Teacher")
+                                    li(data-action="close" data-target="" + course._id) 结课

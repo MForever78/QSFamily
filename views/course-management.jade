@@ -36,16 +36,43 @@ append content
                                 h3.panel-title
                                     a(href="javascript:void(0)", data-action="toggle", data-target="#" + assignment._id)= assignment.title
                             .panel-collapse(id=assignment._id)
-                            .panel-body
-                                h4 提交截止时间
-                                p= assignment.dueDateFormated
-                                h4 最后期限
-                                p= assignment.deadlineFormated
-                                h4 说明
-                                p= assignment.description
-                            .panel-foot
-                                .btn.btn-error.btn-small(data-action="delete", data-target="" + assignment._id) 删除作业
-                                .btn.btn-primary.btn-small(data-action="correct", data-target="" + assignment._id) 批改作业
+                                .panel-body
+                                    h4 提交截止时间
+                                    p= assignment.dueDateFormated
+                                    h4 最后期限
+                                    p= assignment.deadlineFormated
+                                    h4 说明
+                                    p= assignment.description
+                                .panel-foot
+                                    .btn.btn-error.btn-small(data-action="delete", data-target="" + assignment._id) 删除作业
+                                    .btn.btn-warn.btn-small(data-action="edit", data-target="" + assignment._id) 修改作业
+        #correction-wrap
+            .wall-view
+                .correction-wall
+                    .correction-wall-navigation
+                        ul
+                            if (assignments.length > 0)
+                                each assignment in assignments
+                                    li(data-action="correct", data-target=assignment._id)= assignment.title
+                    .correction-wall-content
+                        table.table.in-wall
+                            thead
+                                tr
+                                    th 姓名
+                                    th 学号
+                                    th 状态
+                                    th 提交时间
+                                    th 操作
+                            tbody
+                                if (students.length > 0)
+                                    each student in students
+                                        tr
+                                            td= student.name
+                                            td= student.studentId
+                                            td
+                                            td
+                                            td
+
         #student-wrap
             .student-manage-item.btn.btn-primary(data-action="add") 增加学生
             .student-manage-item.btn.btn-primary(data-action="bulk") 批量添加
@@ -68,6 +95,7 @@ append content
                     tr
                         th 姓名
                         th 学号
+                        th 用户名
                         th 性别
                         th 专业
                         th 邮箱
@@ -80,6 +108,7 @@ append content
                             tr
                                 td= student.name
                                 td= student.studentId
+                                td= student.username
                                 td= student.gender
                                 td= student.department
                                 td= student.email
@@ -92,6 +121,7 @@ append content
                             tr
                                td= student.name
                                td= student.studentId
+                               td
                                td= student.gender
                                td= student.department
                                td
