@@ -15,3 +15,16 @@ append content
                     span 记住我
             .input-group
                 button#submit.btn.btn-primary 登入
+                a.forget(href="#") 找回密码
+        form#findpassword.is-hidden(action="/register/findpassword", method="post")
+            .input-group
+                label(for="studentid") 学号
+                input(type="text", name="studentId", placeholder="Student ID")
+            .input-group
+                label(for="password") 姓名
+                input(type="text", name="name", placeholder="Name")
+            .input-group
+                label(for="username") 用户名
+                input(type="text", name="username", placeholder="Username")
+            .input-group
+                button#submit.btn.btn-primary 找回密码

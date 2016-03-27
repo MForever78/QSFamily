@@ -11,6 +11,10 @@ var multer = require('multer');
 var storage = multer.memoryStorage();
 var upload = multer({ storage: storage });
 var XLSX = require('xlsx');
+var mailConfig = require('config').get('mail');
+var nodemailer = require('nodemailer');
+
+var transporter = nodemailer.createTransport(mailConfig.smtpConfig);
 
 app.get('/', function(req, res, next) {
   res.render('register');
@@ -185,6 +189,49 @@ app.post('/sheet', auth("Teacher"), upload.single('file'), function(req, res, ne
     });
   }).then(function() {
     return res.json({ code: 0 });
+  });
+});
+
+app.post('/findpassword', function(req, res, next) {
+  var outer = {};
+  Student.findOne({
+    $and: [
+      {studentId: req.body.studentId},
+      {name: req.body.name},
+      {username: req.body.username}
+    ]
+  }).then(function(student) {
+    if (!student) {
+      throw new Error('请输入正确的学号、姓名及注册时输入的用户名');
+    }
+    var password = crypto.randomBytes(12).toString('base64');
+    outer.password = password;
+    return student.update({
+      $set: {
+        password: cookPassword(password, student.salt)
+      }
+    });
+  }).then(function() {
+    return transporter.sendMail({
+      from: mailConfig.from,
+      to: "3130103636" + "@zju.edu.cn",
+      subject: "轻松家园密码找回",
+      text: "你的新密码是：" + outer.password + "\n请在登入后尽快修改密码"
+    });
+  }).then(function() {
+    return res.render('login', {
+      message: {
+        type: 'success',
+        text: '你的密码已经被重置，新密码以发至你的学号邮箱中，请查收'
+      }
+    });
+  }).catch(function(err) {
+    return res.render('login', {
+      message: {
+        type: 'error',
+        text: err.message
+      }
+    });
   });
 });
 
