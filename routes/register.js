@@ -203,15 +203,18 @@ app.post('/sheet', auth("Teacher"), upload.single('file'), function(req, res, ne
         attendee: { $each: oldStudentsId }
       }
     });
-    // add assignments to student
+    // add assignments and course to student
     var addToStudents = Student.update({
       _id: {
         $in: oldStudentsId
       }
     }, {
       $push: {
-        assignments: { $each: cookedAssignments }
+        assignments: { $each: cookedAssignments },
+        courseTaking: course._id
       }
+    }, {
+      multi: true
     });
     // remove students from registry
     var removeOldStudents = Register.remove({
@@ -221,7 +224,8 @@ app.post('/sheet', auth("Teacher"), upload.single('file'), function(req, res, ne
     });
 
     return Promise.all([addToCourse, addToStudents, removeOldStudents]);
-  }).then(function() {
+  }).then(function(result) {
+    debug(result);
     return res.json({ code: 0 });
   }).catch(function(err) {
     res.render('register', {
@@ -256,7 +260,7 @@ app.post('/findpassword', function(req, res, next) {
   }).then(function() {
     return transporter.sendMail({
       from: mailConfig.from,
-      to: "3130103636" + "@zju.edu.cn",
+      to: req.body.studentId + "@zju.edu.cn",
       subject: "轻松家园密码找回",
       text: "你的新密码是：" + outer.password + "\n请在登入后尽快修改密码"
     });
