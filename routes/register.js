@@ -172,23 +172,65 @@ app.post('/sheet', auth("Teacher"), upload.single('file'), function(req, res, ne
     newStudentsId = newStudents.map(function(newStudent) {
       return newStudent.studentId;
     });
-    return Student.find({
+    var findOldStudents = Student.find({
       studentId: {
         $in: newStudentsId
       }
-    })
-  }).then(function(oldStudents) {
+    });
+    var findCourse = Course.findById(req.body.course);
+    return Promise.all([findOldStudents, findCourse]);
+  }).then(function(result) {
+    var oldStudents = result[0];
+    var course = result[1];
     // delete all the old students from registry
-    oldStudentsId = oldStudents.map(function(oldStudent) {
+    // and add them into course
+    var oldStudentsSid = oldStudents.map(function(oldStudent) {
       return oldStudent.studentId;
-    })
-    return Register.remove({
-      studentId: {
-        $in: oldStudentsId
+    });
+
+    var oldStudentsId = oldStudents.map(function(oldStudent) {
+      return oldStudent._id;
+    });
+
+    var cookedAssignments = course.assignments.map(function(assignment) {
+      var cookedAssignment = {};
+      cookedAssignment.reference = assignment;
+      return cookedAssignment;
+    });
+    // add students to course attendee
+    var addToCourse = course.update({
+      $push: {
+        attendee: { $each: oldStudentsId }
       }
     });
+    // add assignments to student
+    var addToStudents = Student.update({
+      _id: {
+        $in: oldStudentsId
+      }
+    }, {
+      $push: {
+        assignments: { $each: cookedAssignments }
+      }
+    });
+    // remove students from registry
+    var removeOldStudents = Register.remove({
+      studentId: {
+        $in: oldStudentsSid
+      }
+    });
+
+    return Promise.all([addToCourse, addToStudents, removeOldStudents]);
   }).then(function() {
     return res.json({ code: 0 });
+  }).catch(function(err) {
+    res.render('register', {
+      session: req.session,
+      message: {
+        type: 'error',
+        text: err.message
+      }
+    });
   });
 });
 
