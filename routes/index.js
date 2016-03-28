@@ -23,6 +23,14 @@ module.exports = function(app) {
           session: req.session,
           newsList: newsList
         });
+      }).catch(function(err) {
+        return res.render('index', {
+          message: {
+            type: 'error',
+            text: '发生了一些错误'
+          }
+        });
+        throw err;
       });
   });
 
