@@ -119,6 +119,7 @@ app.delete('/', function(req, res, next) {
 
 app.post('/upload', auth("Student"), upload.single('file'), function(req, res, next) {
   Logger.info("Uploaded assignment:", req.body);
+  next();
 }, function(req, res, next) {
   return Student.findById(req.session.user._id)
     .populate('assignments.reference')
