@@ -268,7 +268,7 @@ app.post('/findpassword', function(req, res, next) {
     return res.render('login', {
       message: {
         type: 'success',
-        text: '你的密码已经被重置，新密码以发至你的学号邮箱中，请查收'
+        text: '你的密码已经被重置，新密码已发至你的学号邮箱中，请查收'
       }
     });
   }).catch(function(err) {
