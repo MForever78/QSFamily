@@ -40,6 +40,10 @@ var studentSchema = new Schema({
       type: Number,
       "default": 0
     },
+    late: {
+      type: Boolean,
+      "default": false
+    },
     updateAt: Date,
     attachmentUrl: String,
     remark: String

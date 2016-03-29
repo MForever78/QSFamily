@@ -128,8 +128,11 @@ app.post('/upload', auth("Student"), upload.single('file'), function(req, res, n
         if (assignment.reference && assignment.reference._id == req.body.assignment) {
           // if has passed the due date, then refuse it
           var now = new Date();
+          if (now > assignment.reference.deadline) {
+            throw new Error("Deadline passed, yet user want to upload assignment!");
+          }
           if (now > assignment.reference.dueDate) {
-            throw new Error("Due date passed, yet user want to upload assignment!");
+            assignment.late = true;
           }
           if (!assignment.complete) {
             // first time upload assignment, just accept it
