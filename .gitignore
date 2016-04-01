@@ -3,3 +3,5 @@ node_modules
 public/bower_components
 config
 database/
+rsync.sh
+
