@@ -10,9 +10,27 @@ var crypto = require('crypto');
 
 app.get('/', function(req, res, next) {
     if (!req.session.user) return res.redirect('/');
-    return res.render('profile', {
-        session: req.session
-    });
+    switch(req.session.user.role) {
+        case "Teacher":
+            return res.render('profile', {
+                session: req.session
+            });
+        case "Student":
+            Student.findById(req.session.user._id).then(function(user) {
+                return res.render('profile', {
+                    session: req.session,
+                    reminder: user.reminder
+                });
+            }).catch(function(err) {
+                return res.render('profile', {
+                    session: req.session,
+                    message: {
+                        type: 'error',
+                        text: err.message
+                    }
+                });
+            });
+    }
 });
 
 app.post('/resetpassword', function(req, res, next) {
@@ -49,6 +67,31 @@ app.post('/resetpassword', function(req, res, next) {
                 }
             });
         });
+});
+
+app.post('/reminder', function(req, res, next) {
+    if (!req.session.user) return res.redirect('/');
+    debug('Changing reminder setting');
+    Student.findByIdAndUpdate(req.session.user._id, {
+        $set: {
+            reminder: {
+                dueDate: req.body.dueDate,
+                deadline: req.body.deadline
+            }
+        }
+    }).then(function(student) {
+        return res.render('profile', {
+            session: req.session,
+            reminder: {
+                dueDate: req.body.dueDate,
+                deadline: req.body.deadline
+            },
+            message: {
+                type: 'success',
+                text: '作业提醒设置修改成功'
+            }
+        });
+    });
 });
 
 module.exports = app;
