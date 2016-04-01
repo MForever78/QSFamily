@@ -220,11 +220,13 @@ article {
   padding-left: 30px;
   line-height: 1.5em;
 }
-.course-content {
+.course-content,
+.profile-content {
   display: none;
   position: relative;
 }
-.course-content.active {
+.course-content.active,
+.profile-content.active {
   display: block;
 }
 .course-add {
