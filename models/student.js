@@ -14,7 +14,6 @@ var studentSchema = new Schema({
 
   phone: String,
   email: String,
-  qq: String,
   gender: String,
   department: String,
 
@@ -47,7 +46,17 @@ var studentSchema = new Schema({
     updateAt: Date,
     attachmentUrl: String,
     remark: String
-  }]
+  }],
+  reminder: {
+    dueDate: {
+      type: Boolean,
+      "default": false
+    },
+    deadline: {
+      type: Boolean,
+      "default": true
+    }
+  }
 }, {
   discriminatorKey: 'role'
 });
