@@ -1,6 +1,6 @@
 {
   "name": "QSFamily",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "QSFamily website source code",
   "main": "app.js",
   "scripts": {
