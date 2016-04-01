@@ -4,14 +4,29 @@ append content
     #profile-wrap
         ul.profile-list
             li.profile-tab
-                a(href="javascript:void(0)", data-target="password") 修改密码
+                a(href="javascript:void(0)", data-target="#resetpassword") 修改密码
+            if (reminder)
+                li.profile-tab
+                    a(href="javascript:void(0)", data-target="#reminder") 作业提醒
         .profile-desc 
-            form.password-form(action="/profile/resetpassword", method="POST")
-                .input-group
-                    label(for="old-password") 当前密码
-                    input(type="password", name="oldpassword", required)
-                .input-group
-                    label(for="password") 新密码
-                    input(type="password", name="password", required)
-                .input-group
-                    button.btn.btn-primary(type="submit") 提交
+            #resetpassword.profile-content.fade
+                form.password-form(action="/profile/resetpassword", method="POST")
+                    .input-group
+                        label(for="old-password") 当前密码
+                        input(type="password", name="oldpassword", required)
+                    .input-group
+                        label(for="password") 新密码
+                        input(type="password", name="password", required)
+                    .input-group
+                        button.btn.btn-primary(type="submit") 提交
+            if (reminder)
+                #reminder.profile-content.fade
+                    form.reminder-form(action="/profile/reminder", method="POST")
+                        .input-group
+                            input(type="checkbox", name="dueDate", checked=reminder.dueDate) 
+                            span 若作业的截止日期前一天仍未提交作业，则用邮件提醒我
+                        .input-group
+                            input(type="checkbox", name="deadline", checked=reminder.deadline) 
+                            span 若作业的最后期限前一天仍未提交作业，则用邮件提醒我
+                        .input-group
+                            button.btn.btn-primary(type="submit") 提交
