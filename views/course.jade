@@ -42,3 +42,5 @@ append content
                                             input.is-hidden(type="text", name="title", value="" + assignment.reference.title)
                                             input.btn.btn-default.btn-small(type="file", name="file")
                                             button.btn.btn-primary.btn-small(type="submit") 上传
+                                            if (assignment.complete)
+                                                a(href="/assignment/download/" + assignment._id) 查看上传

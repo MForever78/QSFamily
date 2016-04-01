@@ -166,5 +166,25 @@ app.post('/upload', auth("Student"), upload.single('file'), function(req, res, n
   }
 });
 
+app.get('/download/:assignmentid', function(req, res, next) {
+  if (!req.session.user) return res.redirect('/');
+  Student.findById(req.session.user._id)
+    .populate('assignments.reference')
+    .then(function(student) {
+      var assignment = student.assignments.find(function(assignment) {
+        return assignment._id == req.params.assignmentid;
+      });
+      if (assignment) {
+        return res.download(uploadDest + assignment.reference._id + '/' + assignment.attachmentUrl, function(err) {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log("Download succeed");
+          }
+        });
+      }
+    });
+});
+
 module.exports = app;
 
