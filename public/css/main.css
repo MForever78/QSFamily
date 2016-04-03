@@ -145,6 +145,10 @@ article {
   width: 320px;
   margin: 50px auto;
 }
+#log-wrap {
+  width: 900px;
+  margin: 50px auto 0 auto;
+}
 /*
   Post
 */
@@ -619,6 +623,25 @@ table.in-wall {
 .correction-wall-content {
   position: relative;
   margin-left: 330px;
+}
+/* log */
+.log-list {
+  list-style: none;
+}
+.log-list span {
+  margin-right: 10px;
+}
+.log-info .log-message {
+  color: #276f86;
+}
+.log-warn .log-message {
+  color: #f27113;
+}
+.log-error .log-message {
+  color: #9f3a38;
+}
+.log-date {
+  font-family: "Courier New", Courier, monospace;
 }
 /* helper */
 .negative {
