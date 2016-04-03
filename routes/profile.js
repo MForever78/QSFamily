@@ -7,6 +7,7 @@ var debug = require('debug')('QSFamily:route:profile');
 var authenticate = require('../utils/authenticate');
 var cook = require('../utils/passwordCook');
 var crypto = require('crypto');
+var log = require('../middleware/log');
 
 app.get('/', function(req, res, next) {
     if (!req.session.user) return res.redirect('/');
@@ -51,6 +52,7 @@ app.post('/resetpassword', function(req, res, next) {
                 });
             }
         }).then(function() {
+            next();
             req.session.destroy();
             return res.render('profile', {
                 message: {
@@ -59,6 +61,7 @@ app.post('/resetpassword', function(req, res, next) {
                 }
             });
         }).catch(function(err) {
+            next(err);
             return res.render('profile', {
                 session: req.session,
                 message: {
@@ -67,6 +70,10 @@ app.post('/resetpassword', function(req, res, next) {
                 }
             });
         });
+}, function(req, res, next) {
+    log(req.session.user.name + "修改了密码", 'warn');
+}, function(err, req, res, next) {
+    log(req.session.user.name + "修改密码时发生了错误", 'error');
 });
 
 app.post('/reminder', function(req, res, next) {
@@ -80,6 +87,7 @@ app.post('/reminder', function(req, res, next) {
             }
         }
     }).then(function(student) {
+        next();
         return res.render('profile', {
             session: req.session,
             reminder: {
@@ -92,6 +100,12 @@ app.post('/reminder', function(req, res, next) {
             }
         });
     });
+
+    // TODO: catch error
+}, function(req, res, next) {
+    log(req.session.user.name + "修改了作业提醒设置");
+}, function(err, req, res, next) {
+    log(req.session.user.name + "修改作业提醒时发生了错误");
 });
 
 module.exports = app;
