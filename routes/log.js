@@ -7,12 +7,14 @@ var debug = require('debug')('QSFamily:route:log');
 var auth = require('../middleware/auth');
 
 app.get('/', auth('Teacher'), function(req, res, next) {
-    Log.find().then(function(logs) {
-        res.render('log', {
-            session: req.session,
-            logs: logs
+    Log.find()
+        .sort({ createdAt: -1 })
+        .then(function(logs) {
+            res.render('log', {
+                session: req.session,
+                logs: logs
+            });
         });
-    });
 });
 
 module.exports = app;

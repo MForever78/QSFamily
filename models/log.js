@@ -8,11 +8,8 @@ var Schema = mongoose.Schema;
 var logSchema = new Schema({
     message: String,
     level: String,
-
-    createAt: {
-        type: Date,
-        "default": new Date()
-    },
+}, {
+    timestamps: true
 });
 
 var Log = mongoose.model('Log', logSchema);

@@ -6,6 +6,6 @@ append content
             if (logs.length > 0)
                 each log in logs
                     li(class="log-" + log.level)
-                        span.log-date= log.createAt
+                        span.log-date= log.createdAt
                         span.log-message= log.message
                         
