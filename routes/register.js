@@ -265,6 +265,7 @@ app.post('/findpassword', function(req, res, next) {
       text: "你的新密码是：" + outer.password + "\n请在登入后尽快修改密码"
     });
   }).then(function() {
+    next();
     return res.render('login', {
       message: {
         type: 'success',
@@ -272,6 +273,7 @@ app.post('/findpassword', function(req, res, next) {
       }
     });
   }).catch(function(err) {
+    next(err);
     return res.render('login', {
       message: {
         type: 'error',
@@ -279,6 +281,10 @@ app.post('/findpassword', function(req, res, next) {
       }
     });
   });
+}, function(req, res, next) {
+  log(req.body.name + "重置了密码", 'warn');
+}, function(err, req, res, next) {
+  log(req.body.name + "重置密码时发生了错误", 'error');
 });
 
 module.exports = app;
