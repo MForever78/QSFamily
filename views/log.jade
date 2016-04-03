@@ -1,0 +1,11 @@
+extends layout/default
+
+append content
+    #log-wrap
+        ul.log-list
+            if (logs.length > 0)
+                each log in logs
+                    li(class="log-" + log.level)
+                        span.log-date= log.createAt
+                        span.log-message= log.message
+                        
