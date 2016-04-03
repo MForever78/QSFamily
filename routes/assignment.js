@@ -5,6 +5,7 @@
 var app = require('express')();
 var debug = require('debug')('QSFamily:route:assignment');
 var auth = require('../middleware/auth');
+var log = require('../middleware/log');
 var mkdirp = require('mkdirp');
 var multer = require('multer');
 var fs = require('fs');
@@ -120,12 +121,14 @@ app.delete('/', function(req, res, next) {
 app.post('/upload', auth("Student"), upload.single('file'), function(req, res, next) {
   Logger.info("Uploaded assignment:", req.body);
   next();
+  log(req.session.user.name + "上传了作业：" + req.body.title);
 }, function(req, res, next) {
   return Student.findById(req.session.user._id)
     .populate('assignments.reference')
     .then(function(student) {
       student.assignments = student.assignments.map(function(assignment) {
         if (assignment.reference && assignment.reference._id == req.body.assignment) {
+          res.locals.title = assignment.reference.title;
           // if has passed the due date, then refuse it
           var now = new Date();
           if (now > assignment.reference.deadline) {
