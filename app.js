@@ -50,11 +50,11 @@ app.use(session({
   store: new MongoStore({ mongooseConnection: mongoose.connection })
 }));
 
-/* routing */
-require('./routes')(app);
-
 /* connect database */
 require('./models');
+
+/* routing */
+require('./routes')(app);
 
 /* listening */
 app.listen(port, function() {
